@@ -1,0 +1,2294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="vitals">
+  <title>FarmaClínica Pro — Farmacologia, Farmácia Clínica, Hospitalar e Atenção Farmacêutica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@300..900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --background: #ffffff;
+      --surface-container-low: #f1f7f8;
+      --surface-container: #e3f1f3;
+      --surface-container-high: #d5e9ec;
+      --on-surface: #1b2b33;
+      --on-surface-variant: #46585f;
+      --outline: #7b9198;
+      --outline-variant: #d5e3e5;
+      --primary: #0f7c8a;
+      --primary-hover: #0b636e;
+      --on-primary: #ffffff;
+      --primary-container: #e3f1f3;
+      --on-primary-container: #0a5560;
+      --secondary: #1d5e3a;
+      --tertiary: #2e7d4f;
+      --error: #b3261e;
+      --on-error: #ffffff;
+      --data-1: #0f7c8a;
+      --data-2: #2e7d4f;
+      --data-3: #b86e00;
+      --data-4: #5c5fb0;
+      --data-context: #b8c7ca;
+      --positive: #2e7d4f;
+      --warning: #b86e00;
+      --focus: #0f7c8a;
+      --ok-tint: color-mix(in srgb, var(--tertiary) 12%, var(--background));
+      --error-tint: color-mix(in srgb, var(--error) 10%, var(--background));
+      --warn-tint: color-mix(in srgb, var(--warning) 12%, var(--background));
+      --font-headline: 'Figtree', sans-serif;
+      --font-body: 'Atkinson Hyperlegible', sans-serif;
+      --font-label: 'Figtree', sans-serif;
+      --rounded: 0.625rem;
+      --rounded-lg: 0.875rem;
+      --rounded-full: 9999px;
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --card-lift: 0 1px 2px color-mix(in srgb, var(--on-surface) 5%, transparent), 0 6px 16px color-mix(in srgb, var(--on-surface) 5%, transparent);
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    .page-shell {
+      border-top: var(--top-bar);
+      min-height: 100vh;
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1280px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Header */
+    .hero-header {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+    .kicker {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--on-primary-container);
+      background: var(--primary-container);
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+      margin-bottom: var(--space-xs);
+    }
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--display-size);
+      letter-spacing: -0.015em;
+      line-height: 1.08;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .lede {
+      font-size: var(--subhead-size);
+      line-height: 1.55;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+      margin: var(--space-xs) 0 0 0;
+    }
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--body-size);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary {
+      background: var(--background);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .btn-secondary:hover { background: var(--surface-container-low); }
+    .btn-ghost {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline-variant);
+    }
+    .btn-ghost:hover { background: var(--surface-container); }
+    .btn-danger {
+      background: var(--error-tint);
+      color: var(--error);
+      border-color: var(--error);
+    }
+    .btn-ok {
+      background: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .btn-err {
+      background: var(--error);
+      color: var(--on-error);
+    }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* KPI Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .status-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .status-card[data-status="ok"] { border-left-color: var(--tertiary); }
+    .status-card[data-status="alert"] { border-left-color: var(--error); }
+    .status-card[data-status="warn"] { border-left-color: var(--warning); }
+    .kpi-label {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--display-size);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+    }
+    .kpi-caption {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+    }
+    .kpi-caption[data-status="ok"] { color: var(--secondary); font-weight: 700; }
+
+    /* Navigation Tabs */
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm);
+    }
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: none;
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--body-size);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .nav-tab:hover {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+    .nav-tab.active {
+      color: var(--primary);
+      background: var(--surface-container-low);
+      border-bottom-color: var(--primary);
+    }
+    .nav-tab:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .chip {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      padding: 2px var(--space-sm);
+      border-radius: var(--rounded-full);
+      background: var(--ok-tint);
+      color: var(--secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .chip[data-status="info"] { background: var(--primary-container); color: var(--on-primary-container); }
+    .chip[data-status="alert"] { background: var(--error-tint); color: var(--error); }
+    .chip[data-status="warn"] { background: var(--warn-tint); color: var(--on-surface); }
+
+    /* Views */
+    .view-panel { display: none; gap: var(--space-lg); }
+    .view-panel.active { display: grid; animation: fadeIn var(--dur-short) var(--ease-out); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .section-sub {
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-md) 0;
+      max-width: 65ch;
+    }
+
+    /* Study Module Grid */
+    .study-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .topic-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .topic-btn {
+      text-align: left;
+      background: var(--background);
+      border: var(--card-border);
+      border-left: 4px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      cursor: pointer;
+      min-height: 44px;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .topic-btn:hover { background: var(--surface-container-low); }
+    .topic-btn.active {
+      background: var(--surface-container-low);
+      border-left-color: var(--primary);
+    }
+    .topic-btn.done { border-left-color: var(--tertiary); }
+    .topic-btn-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      display: block;
+    }
+    .topic-btn-meta {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-xs);
+    }
+
+    .study-article {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .callout {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .callout strong { color: var(--on-surface); }
+    .study-blocks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .concept-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+    .concept-card h4 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+    .concept-card ul {
+      margin: var(--space-xs) 0 0 0;
+      padding-left: 1.2rem;
+    }
+    .concept-card li { margin-bottom: var(--space-xs); }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border: var(--card-border);
+      border-radius: var(--rounded);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--body-size);
+      background: var(--background);
+    }
+    th {
+      background: var(--surface-container-low);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+      font-variant-numeric: tabular-nums;
+    }
+    tr:last-child td { border-bottom: none; }
+
+    /* Mastery Chart */
+    .mastery-grid {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .mastery-row {
+      display: grid;
+      grid-template-columns: minmax(140px, 240px) minmax(0, 1fr) 72px;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .bar-track {
+      height: 14px;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-target-band {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 70%;
+      right: 0;
+      background: var(--ok-tint);
+      pointer-events: none;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-short) var(--ease-out);
+      position: relative;
+    }
+    .bar-fill.high { background: var(--tertiary); }
+
+    /* Filter Bar */
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: end;
+      margin-bottom: var(--space-md);
+    }
+    .field-group {
+      display: grid;
+      gap: var(--space-xs);
+      min-width: 180px;
+      flex: 1 1 200px;
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+    }
+    .field-input, .field-select {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded);
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: var(--body-size);
+    }
+    .field-select { padding-right: 2rem; }
+
+    /* Simulator Workspace */
+    .sim-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .question-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .question-card[data-result="correct"] { border-left-color: var(--tertiary); }
+    .question-card[data-result="wrong"] { border-left-color: var(--error); }
+    .q-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .q-statement {
+      font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+      line-height: 1.55;
+      font-weight: 400;
+      margin: 0;
+      max-width: 65ch;
+    }
+    .ce-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+    .ce-btn {
+      flex: 1 1 160px;
+      min-height: 52px;
+      font-size: var(--subhead-size);
+      font-weight: 700;
+    }
+    .ce-btn.selected-ok { background: var(--tertiary); color: var(--on-primary); border-color: var(--tertiary); }
+    .ce-btn.selected-err { background: var(--error); color: var(--on-error); border-color: var(--error); }
+    .explanation-box {
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      border: var(--card-border);
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .explanation-box.correct { background: var(--ok-tint); border-left: 4px solid var(--tertiary); }
+    .explanation-box.wrong { background: var(--error-tint); border-left: 4px solid var(--error); }
+
+    .q-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 6px;
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .q-pill {
+      min-height: 36px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      font-variant-numeric: tabular-nums;
+      cursor: pointer;
+    }
+    .q-pill.current { outline: 2px solid var(--primary); font-weight: 800; }
+    .q-pill.ok { background: var(--ok-tint); color: var(--secondary); border-color: var(--tertiary); }
+    .q-pill.err { background: var(--error-tint); color: var(--error); border-color: var(--error); }
+
+    /* Clinical Cases */
+    .cases-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .case-list {
+      display: grid;
+      gap: var(--space-sm);
+      max-height: 680px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .case-item {
+      text-align: left;
+      background: var(--background);
+      border: var(--card-border);
+      border-left: 4px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .case-item:hover { background: var(--surface-container-low); }
+    .case-item.active { background: var(--surface-container-low); border-left-color: var(--primary); }
+    .case-item.solved-ok { border-left-color: var(--tertiary); }
+    .case-item.solved-err { border-left-color: var(--error); }
+
+    .case-options {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .case-opt-btn {
+      text-align: left;
+      justify-content: flex-start;
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: 1px solid var(--outline-variant);
+      line-height: 1.45;
+      height: auto;
+    }
+    .case-opt-btn:hover { background: var(--surface-container); }
+    .case-opt-btn.opt-correct { background: var(--ok-tint); border-color: var(--tertiary); color: var(--secondary); font-weight: 700; }
+    .case-opt-btn.opt-wrong { background: var(--error-tint); border-color: var(--error); color: var(--error); }
+
+    /* Calculators / Tools */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .result-banner {
+      background: var(--surface-container-low);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+
+    @media (max-width: 900px) {
+      .study-layout, .sim-layout, .cases-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .page-grid { padding: var(--space-sm); gap: var(--space-md); }
+      .hero-header, .panel, .question-card { padding: var(--space-md); }
+      .mastery-row { grid-template-columns: 1fr; gap: var(--space-xs); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-shell">
+  <main class="page-grid">
+    <!-- Hero Header -->
+    <header class="hero-header">
+      <div class="header-top">
+        <div>
+          <span class="kicker">Plataforma Integrada de Ciências Farmacêuticas</span>
+          <h1 class="title">Farmacologia, Farmácia Clínica, Hospitalar e Atenção Farmacêutica</h1>
+          <p class="lede">Conteúdo estruturado de estudo, simulador completo com 200 questões “Certo ou Errado” comentadas, 50 casos clínicos interativos e calculadoras de apoio à decisão terapêutica.</p>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-secondary" onclick="exportProgressCSV()">
+            <i data-lucide="download" width="18" height="18" aria-hidden="true"></i>
+            Exportar Desempenho
+          </button>
+          <button type="button" id="reset-progress-btn" class="btn btn-danger" onclick="handleResetProgress(this)">
+            <i data-lucide="rotate-ccw" width="18" height="18" aria-hidden="true"></i>
+            Zerar Progresso
+          </button>
+        </div>
+      </div>
+      <div id="persistence-banner" class="chip" data-status="info">Progresso salvo automaticamente no caderno</div>
+    </header>
+
+    <!-- KPI Row -->
+    <section class="kpi-grid" aria-label="Resumo do desempenho">
+      <article class="status-card" data-status="info">
+        <div class="kpi-label">Eixos de Estudo</div>
+        <div class="kpi-value" id="kpi-modules">0 / 6</div>
+        <div class="kpi-caption" id="kpi-modules-cap">Marque os módulos concluídos</div>
+      </article>
+      <article class="status-card" data-status="info" id="kpi-sim-card">
+        <div class="kpi-label">Simulador (200 Questões)</div>
+        <div class="kpi-value" id="kpi-sim">0 / 200</div>
+        <div class="kpi-caption" id="kpi-sim-cap">0% de acerto nas respondidas</div>
+      </article>
+      <article class="status-card" data-status="info" id="kpi-cases-card">
+        <div class="kpi-label">Casos Clínicos (50)</div>
+        <div class="kpi-value" id="kpi-cases">0 / 50</div>
+        <div class="kpi-caption" id="kpi-cases-cap">0% de acurácia clínica</div>
+      </article>
+      <article class="status-card" data-status="ok">
+        <div class="kpi-label">Meta de Domínio</div>
+        <div class="kpi-value" id="kpi-mastery">0%</div>
+        <div class="kpi-caption" data-status="ok">Referência-alvo: ≥ 70%</div>
+      </article>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="nav-bar" aria-label="Módulos da plataforma">
+      <button type="button" class="nav-tab active" data-tab="study" onclick="switchView('study')">
+        <i data-lucide="book-open" width="18" height="18" aria-hidden="true"></i>
+        Estudo Estruturado (6 Eixos)
+      </button>
+      <button type="button" class="nav-tab" data-tab="sim" onclick="switchView('sim')">
+        <i data-lucide="check-square" width="18" height="18" aria-hidden="true"></i>
+        Simulador 200 Questões (C/E)
+      </button>
+      <button type="button" class="nav-tab" data-tab="cases" onclick="switchView('cases')">
+        <i data-lucide="stethoscope" width="18" height="18" aria-hidden="true"></i>
+        50 Casos Clínicos Práticos
+      </button>
+      <button type="button" class="nav-tab" data-tab="tools" onclick="switchView('tools')">
+        <i data-lucide="calculator" width="18" height="18" aria-hidden="true"></i>
+        Ferramentas &amp; Painel de Domínio
+      </button>
+    </nav>
+
+    <!-- VIEW 1: STUDY -->
+    <section id="view-study" class="view-panel active">
+      <div class="panel">
+        <h2 class="section-heading">Conteúdo de Estudo Estruturado</h2>
+        <p class="section-sub">Selecione um dos seis eixos baseados nas obras de farmacologia médica, química medicinal, cuidado farmacêutico, antibioticoterapia, injetáveis e farmácia hospitalar Lean.</p>
+        <div class="study-layout">
+          <div id="study-topic-list" class="topic-list"></div>
+          <article id="study-content" class="study-article"></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: SIMULATOR 200 -->
+    <section id="view-sim" class="view-panel">
+      <div class="panel">
+        <h2 class="section-heading">Simulador: 200 Questões “Certo ou Errado”</h2>
+        <p class="section-sub">Avalie seu domínio com correção imediata e justificativa fundamentada. Use os filtros para treinar por área ou revisar apenas questões erradas.</p>
+        <div class="controls-row">
+          <div class="field-group">
+            <label class="field-label" for="sim-domain-filter">Área Temática</label>
+            <select id="sim-domain-filter" class="field-select" onchange="applySimFilters()">
+              <option value="all">Todas as áreas (200 questões)</option>
+              <option value="Farmacologia">1. Farmacologia &amp; Química Medicinal</option>
+              <option value="Farmácia Clínica">2. Farmácia Clínica &amp; Cuidado</option>
+              <option value="Farmácia Hospitalar">3. Farmácia Hospitalar &amp; Segurança</option>
+              <option value="Antibioticoterapia">4. Antibioticoterapia</option>
+              <option value="Injetáveis e Vacinas">5. Diluição de Injetáveis &amp; Vacinas</option>
+              <option value="Farmacoterapia e Psicofármacos">6. Farmacoterapia &amp; Psicofármacos</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="sim-status-filter">Estado da Questão</label>
+            <select id="sim-status-filter" class="field-select" onchange="applySimFilters()">
+              <option value="all">Todas</option>
+              <option value="unanswered">Não respondidas</option>
+              <option value="wrong">Apenas erradas</option>
+              <option value="correct">Apenas acertadas</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="sim-search">Buscar palavra-chave</label>
+            <input id="sim-search" class="field-input" type="text" placeholder="Ex.: vancomicina, Dáder, CYP3A4…" oninput="applySimFilters()">
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="startRandomQuiz20()">Bloco Aleatório (20)</button>
+        </div>
+
+        <div class="sim-layout">
+          <div id="sim-question-stage"></div>
+          <aside class="panel" style="padding: var(--space-md);">
+            <div class="kpi-label" style="margin-bottom: var(--space-sm);">Mapa de Questões (<span id="sim-filtered-count">200</span>)</div>
+            <div id="sim-nav-grid" class="q-nav-grid"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: 50 CLINICAL CASES -->
+    <section id="view-cases" class="view-panel">
+      <div class="panel">
+        <h2 class="section-heading">50 Casos Clínicos Práticos Interativos</h2>
+        <p class="section-sub">Cenários reais de enfermaria, UTI, farmácia comunitária, sala de vacinas e central de diluição. Escolha a conduta farmacêutica mais segura e baseada em evidências.</p>
+        <div class="controls-row">
+          <div class="field-group">
+            <label class="field-label" for="case-cat-filter">Especialidade do Caso</label>
+            <select id="case-cat-filter" class="field-select" onchange="applyCaseFilters()">
+              <option value="all">Todos os 50 casos</option>
+              <option value="Farmacoterapia">Farmacoterapia (HAS, DM, Tireoide, Asma, Pediatria)</option>
+              <option value="Antibioticoterapia">Antibioticoterapia &amp; Infecções</option>
+              <option value="Diluição de Injetáveis">Diluição de Injetáveis &amp; Vacinas</option>
+              <option value="Segurança do Paciente">Segurança do Paciente &amp; Logística</option>
+              <option value="Psicofármacos">Psicofármacos &amp; Interações</option>
+              <option value="Cuidado Farmacêutico">Cuidado Farmacêutico, Dáder &amp; MIPs</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="case-search">Buscar no caso clínico</label>
+            <input id="case-search" class="field-input" type="text" placeholder="Ex.: furosemida, ClCr, gestante, zolpidem…" oninput="applyCaseFilters()">
+          </div>
+        </div>
+
+        <div class="cases-layout">
+          <div id="case-list" class="case-list"></div>
+          <div id="case-stage"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: TOOLS & MASTERY -->
+    <section id="view-tools" class="view-panel">
+      <div class="panel">
+        <h2 class="section-heading">Desempenho por Eixo Temático</h2>
+        <p class="section-sub">A faixa verde à direita indica a zona de domínio clínico recomendado (≥ 70% de acerto no simulador e nos casos).</p>
+        <div id="mastery-chart" class="mastery-grid"></div>
+      </div>
+
+      <div class="tools-grid">
+        <article class="panel">
+          <h3 class="section-heading" style="font-size: var(--subhead-size);">Calculadora de Clearance de Creatinina (Cockcroft-Gault)</h3>
+          <p class="section-sub">Apoio para ajuste de antimicrobianos (cefepima, vancomicina, ciprofloxacino, piperacilina-tazobactam).</p>
+          <div class="controls-row" style="margin-bottom: var(--space-sm);">
+            <div class="field-group">
+              <label class="field-label" for="cg-age">Idade (anos)</label>
+              <input id="cg-age" class="field-input" type="number" value="68" min="18" max="110" oninput="calcCockcroft()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="cg-weight">Peso (kg)</label>
+              <input id="cg-weight" class="field-input" type="number" value="72" min="30" max="200" oninput="calcCockcroft()">
+            </div>
+          </div>
+          <div class="controls-row" style="margin-bottom: var(--space-sm);">
+            <div class="field-group">
+              <label class="field-label" for="cg-cr">Creatinina sérica (mg/dL)</label>
+              <input id="cg-cr" class="field-input" type="number" step="0.1" value="1.8" min="0.3" max="15" oninput="calcCockcroft()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="cg-sex">Sexo biológico</label>
+              <select id="cg-sex" class="field-select" onchange="calcCockcroft()">
+                <option value="M">Masculino (× 1,00)</option>
+                <option value="F">Feminino (× 0,85)</option>
+              </select>
+            </div>
+          </div>
+          <div id="cg-output" class="result-banner"></div>
+        </article>
+
+        <article class="panel">
+          <h3 class="section-heading" style="font-size: var(--subhead-size);">Calculadora de Reposição de Bicarbonato &amp; Dose Pediátrica</h3>
+          <p class="section-sub">Fórmula de acidose metabólica do Manual de Padronização e conferência rápida mg/kg/dia.</p>
+          <div class="controls-row" style="margin-bottom: var(--space-sm);">
+            <div class="field-group">
+              <label class="field-label" for="bic-found">Bicarbonato encontrado (mEq/L)</label>
+              <input id="bic-found" class="field-input" type="number" value="10" min="2" max="30" oninput="calcBicarb()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="bic-target">Bicarbonato desejado (mEq/L)</label>
+              <input id="bic-target" class="field-input" type="number" value="18" min="8" max="28" oninput="calcBicarb()">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="bic-weight">Peso do paciente (kg)</label>
+              <input id="bic-weight" class="field-input" type="number" value="60" min="3" max="180" oninput="calcBicarb()">
+            </div>
+          </div>
+          <div id="bic-output" class="result-banner"></div>
+        </article>
+      </div>
+
+      <footer class="panel" style="padding: var(--space-md) var(--space-lg);">
+        <div class="kpi-label">Fontes de Referência do Caderno</div>
+        <p style="margin: var(--space-xs) 0 0 0; font-size: var(--label-size); color: var(--on-surface-variant);">
+          Conteúdo integralmente estruturado a partir dos materiais: <em>Cuidado Farmacêutico Vols. 1–6</em> (Série Farmácia Clínica &amp; Atenção Farmacêutica), <em>Farmacologia Médica e Terapêutica</em>, <em>Química Medicinal</em> (Barreiro &amp; Fraga), <em>Farmácia Clínica &amp; Atenção Farmacêutica</em> (Bisson), <em>Manuais de Especialização em Farmácia Clínica</em>, <em>Guia de Antibioticoterapia USP</em>, <em>Manual de Diluição de Medicamentos Injetáveis</em>, <em>Manual de Padronização</em>, <em>Administração de Vacinas e Injetáveis</em>, <em>A Farmácia Lean</em> (Murad), <em>O Sistema Opuspac / Administração de Medicamentos para Segurança do Paciente</em> (Basso), <em>Protocolo de Londres 2024</em>, <em>Perfil Farmacoterapêutico do Zolpidem</em>, <em>Blackbook Clínica Médica</em> e <em>Doses em Pediatria</em>.
+        </p>
+      </footer>
+    </section>
+  </main>
+</div>
+
+<api-shim></api-shim>
+<script>
+// =========================================================
+// 1. DADOS ESTRUTURADOS DE ESTUDO (6 EIXOS)
+// =========================================================
+const STUDY_MODULES = [
+  {
+    id: `m1`,
+    title: `1. Farmacologia Clínica & Química Medicinal`,
+    subtitle: `PK/PD, CYP450, ionização, receptores e reações adversas`,
+    callout: `A resposta terapêutica depende do reconhecimento molecular complementar ao sítio receptor e da proporção entre formas não ionizadas (lipofílicas, permeiam membranas) e ionizadas (polares, solvatadas em meio aquoso).`,
+    cards: [
+      {
+        title: `Farmacocinética e Metabolismo CYP450`,
+        items: [
+          `Absorção & Biodisponibilidade: fração inalterada que atinge a circulação sistêmica; formas aquosas têm início de ação mais rápido que suspensões ou soluções oleosas.`,
+          `Fase 1 (Citocromo P450 no retículo endoplasmático liso hepático): CYP3A4 metaboliza ~55% dos fármacos, CYP2D6 ~24% e CYP2C9 ~10%.`,
+          `Indutores enzimáticos (rifampicina, fenobarbital, carbamazepina) aceleram o metabolismo e reduzem níveis séricos de substratos.`,
+          `Inibidores enzimáticos (ex.: fluvoxamina sobre CYP3A4/1A2/2D6; fluoxetina/paroxetina sobre CYP2D6) elevam concentrações plasmáticas e risco de toxicidade.`
+        ]
+      },
+      {
+        title: `Farmacodinâmica & Química Medicinal`,
+        items: [
+          `Fármacos estruturalmente específicos interagem com enzimas, receptores metabotrópicos (GPCR), ionotrópicos, ligados a quinases, nucleares e ácidos nucleicos.`,
+          `Agonismo tendencioso (biased agonism): diferentes agonistas estabilizam conformações distintas do mesmo receptor, ativando preferencialmente uma via intracelular.`,
+          `Bioisosterismo e efeito-orto (ex.: derivados N-acilidrazônicos e pirazolo-pirimidina vs pirazólico) modulam conformação na biofase, potência e biodisponibilidade.`
+        ]
+      },
+      {
+        title: `Reações Adversas (Rawlins & Thompson)`,
+        items: [
+          `Tipo A (Dose-dependentes): extensão previsível do efeito farmacológico em doses habituais; alta morbidade, baixa mortalidade, evitáveis com ajuste de dose (ex.: hipoglicemia por insulina/sulfonilureia).`,
+          `Tipo B (Não dose-dependentes / idiossincrásicas): imprevisíveis, envolvendo hipersensibilidade ou mecanismos imunológicos/genéticos; exigem suspensão imediata.`
+        ]
+      }
+    ],
+    tableTitle: `Principais Isoenzimas CYP450 e Exemplos Clínicos das Fontes`,
+    tableHeaders: [`Isoenzima`, `Participação Fase 1`, `Substratos / Exemplos`, `Inibidores / Indutores Relevantes`],
+    tableRows: [
+      [`CYP3A4`, `~55% dos fármacos`, `Mirtazapina, vigabatrina, estatinas, quetiapina`, `Indutores: carbamazepina, rifampicina, fenobarbital; Inib.: fluvoxamina`],
+      [`CYP2D6`, `~24% dos fármacos`, `Trazodona, mirtazapina, metoprolol, antidepressivos`, `Inibidores: fluoxetina, paroxetina, fluvoxamina`],
+      [`CYP2C9`, `~10% dos fármacos`, `Carbamazepina (epoxidação), ciproheptadina, varfarina`, `Polimorfismos genéticos alteram depuração e janela terapêutica`]
+    ]
+  },
+  {
+    id: `m2`,
+    title: `2. Farmácia Clínica & Atenção Farmacêutica`,
+    subtitle: `Resoluções CFF 585/586, Método Dáder, Anamnese e PRM`,
+    callout: `Pela Resolução CFF nº 585/2013, o cuidado farmacêutico centrado no paciente é uma relação humanizada em que farmacêutico e paciente compartilham decisões e responsabilidade pelos resultados em saúde.`,
+    cards: [
+      {
+        title: `Marcos Regulatórios no Brasil`,
+        items: [
+          `Consenso Brasileiro de Atenção Farmacêutica (2002 / OPAS): interação direta farmacêutico–usuário visando farmacoterapia racional e melhoria da qualidade de vida.`,
+          `Resolução CFF nº 585/2013: define atribuições clínicas (anamnese, consulta em ambiente privativo, avaliação de exames, plano de cuidado, conciliação na admissão/transferência/alta).`,
+          `Resolução CFF nº 586/2013: regula a prescrição farmacêutica (definição de objetivo terapêutico, seleção baseada em evidências, redação, orientação e seguimento).`,
+          `RDC Anvisa nº 44/2009: serviços farmacêuticos em farmácias (atenção domiciliar, PA, temperatura, glicemia capilar, inalação e aplicação de injetáveis).`
+        ]
+      },
+      {
+        title: `Método Dáder & Seguimento`,
+        items: [
+          `Fase A — Análise Global: elaboração do estado situacional (problemas de saúde × medicamentos, incluindo fitoterápicos, alergias e adesão).`,
+          `Fase B — Plano de Ação: pactuação de intervenções com o paciente e/ou prescritor para resolver e prevenir Problemas Relacionados a Medicamentos (PRM).`,
+          `Fase C — Controle e Avaliação: verificação de metas terapêuticas, parâmetros clínico-laboratoriais e novos PRM.`
+        ]
+      },
+      {
+        title: `Distúrbios Menores, MIPs & Fitoterapia`,
+        items: [
+          `Antes de indicar um MIP, avaliar sinais de alerta, idade (crianças < 2 anos e gestantes exigem cautela/encaminhamento) e interações.`,
+          `Vasoconstritores nasais tópicos: limitar ao máximo de 5 dias e descartar o frasco após o tratamento para evitar rinite medicamentosa.`,
+          `Fitoterapia: cerca de 80% da população confia na suposta segurança inata das plantas; investigar uso de plantas medicinais na anamnese.`
+        ]
+      }
+    ],
+    tableTitle: `Classificação Operacional de Problemas Relacionados à Farmacoterapia`,
+    tableHeaders: [`Categoria`, `Exemplos Críticos`, `Conduta Farmacêutica`],
+    tableRows: [
+      [`Seleção e Prescrição`, `Contraindicação, duplicidade, dose inadequada, interação grave`, `Intervir junto ao prescritor com respaldo científico`],
+      [`Necessidade / Efetividade`, `Condição não tratada ou necessidade de medicamento adicional`, `Avaliar metas clínicas e propor ajuste terapêutico`],
+      [`Adesão e Administração`, `Omissão ou adição de doses, horário/alimento incorreto`, `Educação em saúde, plano posológico e seguimento`]
+    ]
+  },
+  {
+    id: `m3`,
+    title: `3. Farmácia Hospitalar, Lean & Segurança`,
+    subtitle: `Unitarização, ABC/XYZ, 9 Certos e Protocolo de Londres 2024`,
+    callout: `Estudos citados nas obras de segurança apontam que eventos adversos (EA) ocorrem em ~10% das internações (50% evitáveis); 30% dos EA hospitalares ocorrem no processo de medicação — 58% na prescrição, 40% na administração e 2% na dispensação.`,
+    cards: [
+      {
+        title: `Logística Hospitalar & Farmácia Lean`,
+        items: [
+          `Unitarização (dose unitária): embalagem pronta para administração sem manipulação prévia na enfermaria, identificada com nome (Caixa Alta/Baixa), dose, forma, lote e validade.`,
+          `Classificação ABC (custo econômico: classe A concentra ~70–80% do valor em poucos itens) combinada à matriz XYZ (criticidade clínica: X, Y, Z para risco de falta ao paciente).`,
+          `Ferramentas Lean: Kanban (gestão visual), 5S, VSM, PDCA/PDSA (Study), 5 Porquês, Ishikawa (causa-raiz) e rastreamento com código de barras seriado.`
+        ]
+      },
+      {
+        title: `Os 9 Certos da Administração Segura`,
+        items: [
+          `1. Medicação certa · 2. Paciente certo · 3. Dose certa · 4. Via certa · 5. Horário certo.`,
+          `6. Registro certo · 7. Ação certa · 8. Forma farmacêutica certa · 9. Monitoramento certo.`,
+          `Ações complementares: busca ativa por medicamentos gatilhos (triggers), conciliação medicamentosa e análise de quase falhas.`
+        ]
+      },
+      {
+        title: `Protocolo de Londres 2024 (Investigação de Incidentes)`,
+        items: [
+          `Prioridade absoluta após dano: Disclosure (comunicação aberta e transparente) e cuidado clínico imediato ao paciente e família.`,
+          `Equipe de análise (mín. 2 pessoas): especialista clínico não envolvido diretamente + especialista em investigação, nunca chefia direta dos entrevistados.`,
+          `Matriz de fatores contribuintes: paciente, tarefa/protocolos, equipe, ambiente, sistemas eletrônicos e cultura justa (não punitiva).`
+        ]
+      }
+    ],
+    tableTitle: `Indicadores da Farmácia Clínica Hospitalar & Gestão de Estoque`,
+    tableHeaders: [`Processo`, `Indicador-Chave`, `Impacto na Segurança e Custo`],
+    tableRows: [
+      [`Análise de Prescrição`, `% de prescrições avaliadas antes da dispensação / adesão médica`, `Intercepta erros de dose, via, interação e alergia`],
+      [`Acuracidade & Estoque`, `Inventário, giro de estoque, estoque mínimo/segurança, perdas`, `Evita rupturas de antimicrobianos críticos e compras emergenciais`],
+      [`Farmacovigilância`, `Notificações voluntárias e busca ativa com medicamentos gatilhos`, `Substitui cultura punitiva por aprendizado sistêmico`]
+    ]
+  },
+  {
+    id: `m4`,
+    title: `4. Antibioticoterapia & Controle de Infecções`,
+    subtitle: `Mecanismos, espectros, ajuste renal, profilaxia e protocolos`,
+    callout: `Febre isolada sem evidência de infecção não indica antibioticoterapia — antibióticos não são antipiréticos. Na profilaxia cirúrgica, administrar na indução anestésica (EV) e não ultrapassar 24–48 horas.`,
+    cards: [
+      {
+        title: `Betalactâmicos & Resistência`,
+        items: [
+          `Ligam-se às PBP inibindo a parede celular; em Gram-negativos precisam atravessar porinas na membrana externa.`,
+          `Resistência: betalactamases (clivam o anel), PBP de baixa afinidade (MRSA / pneumococo resistente — clavulanato não resolve resistência por PBP alterada) e perda de porinas.`,
+          `Penicilinas: alergia cutânea em até 10%, anafilaxia em 0,05%; Penicilina G > 30 milhões UI/dia (ou > 18 milhões na disfunção renal) pode causar convulsões e mioclonia.`
+        ]
+      },
+      {
+        title: `Glicopeptídeos, Macrolídeos & Tetraciclinas`,
+        items: [
+          `Vancomicina: Gram-positivos resistentes (MRSA, Enterococcus) e C. difficile (125 mg VO 6/6h por 10–14 dias). Infusão rápida libera histamina ("síndrome do homem vermelho"): diluir a 2,5–5 mg/mL e infundir em 30–60 min.`,
+          `Macrolídeos (azitromicina, claritromicina) e Clindamicina: ligam-se à subunidade 50S dos ribossomos; farmacodinâmica tempo-dependente (macrolídeos). Clindamicina não exige ajuste renal, mas aumenta risco de colite pseudomembranosa.`,
+          `Doxiciclina: escolha nas rickettsioses (febre maculosa) e alternativa a macrolídeos em atípicos (M. pneumoniae, C. pneumoniae); evitar em < 8 anos pelo risco de descoloração dentária.`
+        ]
+      },
+      {
+        title: `Protocolos Clínicos (USP / Guias)`,
+        items: [
+          `Neutropenia febril pediátrica (< 1000 neutrófilos/mm³): Esquema 1 cefepima 50 mg/kg 8/8h; Esquema 2 + vancomicina se foco Gram-positivo/cateter/pneumonia; Esquema 3 + amicacina se sepse/choque.`,
+          `Meningite bacteriana adulto sem risco: ceftriaxona 2 g IV 12/12h (10–14d); > 50 anos, gestante ou HIV: acrescentar ampicilina 2 g IV 4/4h para Listeria; pós-neurocirurgia/DVE: vancomicina + cefepima/ceftazidima/meropenem.`,
+          `Cistite não complicada: SMX-TMP, nitrofurantoína, norfloxacino ou fosfomicina 3 g dose única; gestantes sempre colher urina I + urocultura.`
+        ]
+      }
+    ],
+    tableTitle: `Ajuste de Dose na Insuficiência Renal (Guia de Antibioticoterapia)`,
+    tableHeaders: [`Antimicrobiano`, `Dose Padrão (Função Normal)`, `Ajuste por ClCr (mL/min)`],
+    tableRows: [
+      [`Cefepima`, `2 g IV a cada 8–12 h`, `ClCr 10–50: a cada 24 h · ClCr < 10: a cada 48 h`],
+      [`Piperacilina + Tazobactam`, `4,5 g IV a cada 6–8 h`, `ClCr 20–50: 2,25 g 6/6h · ClCr < 20: 2,25 g 8/8h`],
+      [`Ciprofloxacino`, `400 mg IV ou 500 mg VO 12/12h`, `ClCr 10–50: 200 mg IV 12/12h · ClCr < 10: 50% da dose`],
+      [`Levofloxacino`, `500–750 mg VO/IV 1x/dia`, `ClCr < 50: 500–750 mg a cada 48 h`],
+      [`Vancomicina`, `1000 mg IV 12/12h`, `ClCr 10–50: 15 mg/kg 24–96h · Alvo sérico vale 15–20 µg/mL`]
+    ]
+  },
+  {
+    id: `m5`,
+    title: `5. Diluição de Injetáveis & Vacinação`,
+    subtitle: `Técnica asséptica, incompatibilidades críticas e biossegurança`,
+    callout: `Ao aspirar uma ampola de vidro, o contato do bisel com a parede de vidro pode desgastá-lo: troque sempre por uma agulha nova estéril antes da aplicação para evitar dor desnecessária e microtraumas.`,
+    cards: [
+      {
+        title: `Preparo Asséptico & Administração de Vacinas`,
+        items: [
+          `Higienizar as mãos previamente; nunca tocar agulha, bico, canhão ou haste/êmbolo da seringa.`,
+          `Quebrar a ampola envolvendo o gargalo com compressa seca ou face estéril da embalagem, exercendo pressão firme a favor do corpo (afastando estilhaços do rosto e dedos).`,
+          `Via subcutânea (SC): selecionar regiões de fácil acesso, menor inervação e espessura subcutânea adequada para prega, distantes de músculos espessos, nervos e proeminências ósseas.`,
+          `Biossegurança: usar luvas quando houver risco de contato com sangue/secreções/pele não íntegra; acidente com material biológico (HIV/HBV) exige atendimento de urgência.`
+        ]
+      },
+      {
+        title: `Diluição, Estabilidade & Incompatibilidades`,
+        items: [
+          `Ácido tranexâmico (250 mg/5 mL): aplicar isoladamente apenas EV (nunca IM/SC), velocidade máx. 50 mg/min; incompatível com cefazolina, ceftriaxona, omeprazol, diazepam, aminofilina.`,
+          `Furosemida (20 mg/2 mL): não misturar com outros medicamentos parenterais; incompatível com diazepam, fenitoína e metoclopramida; infusão lenta (até 40 mg em 30 min; bolus 1 min).`,
+          `Hidrocortisona (100/500 mg pó): reconstituir com 2 mL (100 mg) ou 4 mL (500 mg) de AD/SF; menor estabilidade em SG 5% (6 h) vs SF 0,9% (12 h); incompatível com diazepam, fenitoína, midazolam e prometazina.`
+        ]
+      },
+      {
+        title: `Cuidados em Pediatria & Função Renal com Injetáveis`,
+        items: [
+          `Metoclopramida (10 mg/2 mL): proteger da luz após diluição; reduzir dose em 50% se ClCr 15–60 mL/min e em 75% se ClCr ≤ 15 mL/min; incompatível com ampicilina, furosemida, cloranfenicol, bicarbonato e gluconato de cálcio.`,
+          `Cefalotina: uso IM é muito doloroso; preferir EV. Cefepima e aminoglicosídeos não devem ser misturados na mesma linha/solução.`,
+          `Ferro endovenoso na anemia ferropriva: indicado quando ferro oral não é tolerado, é insuficiente ou precisa reposição rápida.`
+        ]
+      }
+    ],
+    tableTitle: `Resumo de Diluição e Incompatibilidades (Manual de Diluição)`,
+    tableHeaders: [`Medicamento`, `Via / Velocidade`, `Diluentes & Estabilidade`, `Incompatibilidades Notáveis`],
+    tableRows: [
+      [`Ácido Tranexâmico`, `EV exclusivo (≤ 50 mg/min)`, `SF 0,9% ou SG 5% (24 h)`, `Cefazolina, ceftriaxona, diazepam, omeprazol, aminofilina`],
+      [`Furosemida`, `EV bolus 1 min / infusão 30–60 min`, `SF 0,9% (50–250 mL)`, `Diazepam, fenitoína, dantrolene, metoclopramida`],
+      [`Hidrocortisona`, `EV bolus ≥ 30s / infusão 30 min`, `SF 0,9% (12 h) · SG 5% (6 h)`, `Diazepam, fenitoína, midazolam, metilprednisolona, prometazina`],
+      [`Metoclopramida`, `EV lento (10 mg em 3 min) / IM`, `SF 0,9% (24 h prot. luz)`, `Ampicilina, cefalotina, furosemida, bicarbonato Na, Ca-gluconato`]
+    ]
+  },
+  {
+    id: `m6`,
+    title: `6. Farmacoterapia & Psicofármacos`,
+    subtitle: `HAS, Diabetes, Dislipidemias, Tireoide, Asma, Zolpidem e SNC`,
+    callout: `Na prescrição para idosos e pacientes polimedicados, avaliar risco de quedas, sedação prolongada, prolongamento do intervalo QT e síndrome serotoninérgica. O zolpidem não deve exceder 4 semanas de uso contínuo.`,
+    cards: [
+      {
+        title: `Cardiometabólico: HAS, DM e Dislipidemias`,
+        items: [
+          `HAS: meta < 130/80 mmHg em alto/muito alto risco CV, ≥ 3 fatores, DM, lesão em órgão-alvo ou DRC com proteinúria > 1,0 g/L; demais hipertensos < 140/90 mmHg. Betabloqueadores em > 60 anos exigem cautela (bradicardia/hipotensão postural).`,
+          `Diabetes Mellitus: diagnóstico com glicemia jejum ≥ 126 mg/dL, TOTG 2h ≥ 200 mg/dL ou HbA1c ≥ 6,5% (confirmada). Insulina total 0,5–2,0 U/kg/dia (40–60% basal NPH + bolus refeição/correção).`,
+          `Dislipidemias: evitar associação de genfibrozila + estatina pelo alto risco de rabdomiólise; resinas reduzem absorção de varfarina, digoxina, levotiroxina e vitaminas lipossolúveis.`
+        ]
+      },
+      {
+        title: `Tireoide, Asma e Populações Especiais`,
+        items: [
+          `Hipertireoidismo: antitireoidianos inibem síntese, não secreção (efeito após várias semanas porque a tireoglobulina armazena T3/T4); PTU também inibe conversão periférica de T4 em T3 (deiodinase tipo 1).`,
+          `Asma: espirometria mostra VEF1/CVF reduzido (< 0,75–0,80 em adultos; < 0,90 em crianças) com reversibilidade após broncodilatador de curta ação.`,
+          `Idosos (precaução): flurazepam/clordiazepóxido (sedação e quedas), amitriptilina (anticolinérgica), clorpropamida (hipoglicemia prolongada), metildopa (bradicardia/depressão). Gestantes: evitar AINEs nos 2 últimos trimestres.`
+        ]
+      },
+      {
+        title: `Psicofármacos & Zolpidem`,
+        items: [
+          `Zolpidem (imidazopiridina): uso > 4 semanas ou abusivo eleva enzimas hepáticas; interações moderadas com escitalopram, duloxetina, pregabalina, alprazolam e graves com paracetamol + hidrocodona.`,
+          `Síndrome serotoninérgica: evitar associação de antidepressivos/antagonistas com IMAO (respeitar intervalo mínimo de 14 dias na troca); fluvoxamina eleva mirtazapina; fluoxetina/paroxetina elevam trazodona.`,
+          `Prolongamento QT & Convulsões: evitar combinar amiodarona/sotalol/classe IA com haloperidol, ziprasidona, quetiapina ou ADT. Clorpromazina + adrenalina pode causar hipotensão grave e taquicardia.`
+        ]
+      }
+    ],
+    tableTitle: `Critérios Diagnósticos e Metas Terapêuticas Fundamentais`,
+    tableHeaders: [`Condição`, `Critério / Parâmetro`, `Meta ou Conduta Farmacêutica`],
+    tableRows: [
+      [`Hipertensão Arterial`, `Risco CV alto/muito alto ou proteinúria > 1 g/L`, `Meta PA < 130/80 mmHg (demais: < 140/90 mmHg)`],
+      [`Diabetes Mellitus`, `Jejum ≥ 126 mg/dL · TOTG ≥ 200 · HbA1c ≥ 6,5%`, `Monitorar adesão, efetividade e hipoglicemias (RAM Tipo A)`],
+      [`Antipsicóticos / D2`, `Bloqueio de ~80% dos receptores D2`, `Equilíbrio entre eficácia e sintomas extrapiramidais`],
+      [`Tabagismo (Fagerström)`, `TRN + Bupropiona vs monoterapia`, `Combinação eleva sucesso (RR 1,24; IC95% 1,06–1,45)`]
+    ]
+  }
+];
+
+// =========================================================
+// 2. SIMULADOR: 200 QUESTÕES "CERTO OU ERRADO" COMENTADAS
+// Formato compacto: [id, domain, ans (1=Certo, 0=Errado), text, explanation]
+// =========================================================
+const Q_RAW = [
+  [1,`Farmacologia`,1,`As soluções aquosas administradas por via subcutânea ou muscular são absorvidas mais rapidamente do que suspensões aquosas e soluções oleosas.`, `Certo. Quanto maior a solubilidade da preparação nos fluidos biológicos, mais rápida é a absorção; soluções aquosas proporcionam início de ação mais rápido.`],
+  [2,`Farmacologia`,0,`Na farmacocinética de fase 1, a isoenzima CYP2C9 é responsável pelo metabolismo de aproximadamente 55% dos fármacos utilizados na clínica.`, `Errado. A CYP3A4 responde por cerca de 55% dos fármacos na fase 1, enquanto CYP2D6 responde por ~24% e CYP2C9 por ~10%.`],
+  [3,`Farmacologia`,1,`Espécies químicas não ionizadas de um fármaco apresentam maior lipofilicidade e atravessam biomembranas por transporte passivo com maior facilidade.`, `Certo. A fração não ionizada (HA ou B) é mais lipofílica, facilitando a permeabilidade passiva; já a forma ionizada favorece a dissolução aquosa prévia à absorção.`],
+  [4,`Farmacologia`,0,`Segundo a teoria do agonismo tendencioso, todos os agonistas que se ligam ao mesmo receptor GPCR ativam exatamente as mesmas vias intracelulares na mesma proporção.`, `Errado. Agonistas tendenciosos (biased agonists) estabilizam estados conformacionais distintos do mesmo receptor, privilegiando uma via de segundo mensageiro em detrimento de outra.`],
+  [5,`Farmacologia`,1,`A troca bioisostérica de anéis heterocíclicos, como de pirazol para pirazolo-pirimidina em derivados do celecoxibe, pode otimizar a farmacodinâmica e, simultaneamente, reduzir a biodisponibilidade oral.`, `Certo. Modificações bioisostéricas alteram interação com o sítio alvo e propriedades físico-químicas, podendo melhorar afinidade farmacodinâmica às custas de menor absorção oral.`],
+  [6,`Farmacologia`,0,`As reações adversas a medicamentos (RAM) do Tipo A caracterizam-se por serem independentes da dose, imprevisíveis e apresentarem alta mortalidade.`, `Errado. Pela classificação de Rawlins e Thompson, as RAM Tipo A são dose-dependentes, previsíveis por extensão do efeito farmacológico, têm alta morbidade, baixa mortalidade e podem ser evitadas com ajuste de dose.`],
+  [7,`Farmacologia`,1,`Fármacos como rifampicina, fenobarbital e carbamazepina atuam como indutores enzimáticos do citocromo P450, podendo acelerar o próprio metabolismo e o de outros fármacos.`, `Certo. A indução enzimática eleva a expressão de isoenzimas CYP, aumentando a depuração hepática e reduzindo concentrações plasmáticas de substratos coadministrados.`],
+  [8,`Farmacologia`,0,`A amantadina exerce seu efeito na doença de Parkinson exclusivamente por agonismo direto dos receptores glutamatérgicos NMDA.`, `Errado. Na doença de Parkinson, a amantadina atua como antagonista fraco de receptores NMDA, além de estimular a liberação de dopamina, reduzir sua recaptação e bloquear receptores muscarínicos.`],
+  [9,`Farmacologia`,1,`Na transmissão colinérgica muscarínica, a resposta mediada por receptores acoplados à proteína G é significativamente mais lenta do que na transmissão nicotínica ionotrópica.`, `Certo. Receptores muscarínicos modulam vias metabotrópicas mais lentas, enquanto canais nicotínicos geram despolarização rápida direta.`],
+  [10,`Farmacologia`,0,`A biodisponibilidade mede apenas a velocidade com que um comprimido se desintegra no estômago, independentemente da quantidade que alcança a circulação sistêmica.`, `Errado. A biodisponibilidade expressa a fração (quantidade) e a velocidade com que o fármaco administrado atinge a circulação sistêmica de forma intacta.`],
+  [11,`Farmacologia`,1,`Os diuréticos de alça atuam no ramo ascendente espesso da alça de Henle e são preferíveis aos tiazídicos na hipertensão associada à doença renal crônica avançada com retenção hídrica.`, `Certo. Embora tenham duração mais curta na hipertensão essencial, os diuréticos de alça respondem melhor quando há retenção hídrica importante ou DRC avançada.`],
+  [12,`Farmacologia`,0,`A espironolactona é contraindicada no hiperaldosteronismo primário (síndrome de Conn) por não atuar sobre os receptores de aldosterona no túbulo coletor.`, `Errado. A espironolactona é um antagonista específico da aldosterona e constitui terapia particularmente eficaz na síndrome de Conn e na hipertensão resistente.`],
+  [13,`Farmacologia`,1,`Os inibidores da fosfodiesterase III, como a milrinona, melhoram índices hemodinâmicos na insuficiência cardíaca aguda, mas seu uso oral em longo prazo aumenta a mortalidade por arritmias.`, `Certo. Por estimulação cardíaca excessiva, provocam batimentos ectópicos e arritmias ventriculares/supraventriculares, restringindo seu uso a curto prazo por via IV.`],
+  [14,`Farmacologia`,0,`Canais iônicos controlados por voltagem permanecem abertos indefinidamente enquanto a despolarização da membrana celular for mantida.`, `Errado. Mesmo mantendo a despolarização, a abertura desses canais é de curta duração devido ao mecanismo de inativação rápida.`],
+  [15,`Farmacologia`,1,`A tosse seca induzida por fármacos é um evento clássico associado aos inibidores da enzima conversora da angiotensina (IECA).`, `Certo. O acúmulo de bradicinina e substância P decorrente da inibição da ECA explica a tosse seca persistente induzida por IECA.`],
+  [16,`Farmacologia`,0,`Em pacientes hipertensos idosos ou de ascendência africana, que frequentemente têm renina plasmática baixa, a primeira escolha fisiopatológica segundo diretrizes britânicas é sempre um betabloqueador em dose máxima.`, `Errado. Pacientes com renina plasmática baixa respondem melhor inicialmente a um diurético tiazídico ou antagonista dos canais de cálcio.`],
+  [17,`Farmacologia`,1,`A agregação plaquetária final depende da expressão dos receptores GPIIb/IIIa na superfície das plaquetas, que se ligam ao fibrinogênio formando pontes interplaquetárias.`, `Certo. Agonistas como ADP, trombina e TXA2 induzem a ativação da integrina GPIIb/IIIa, etapa comum final da agregação.`],
+  [18,`Farmacologia`,0,`A fluvoxamina não interfere no metabolismo hepático de outros psicofármacos por não possuir ação sobre isoenzimas do citocromo P450.`, `Errado. A fluvoxamina inibe fortemente CYP3A4, CYP1A2 e CYP2D6, elevando significativamente os níveis plasmáticos de fármacos como a mirtazapina.`],
+  [19,`Farmacologia`,1,`Fluoxetina e paroxetina inibem a isoenzima CYP2D6, podendo elevar a concentração sérica de trazodona e precipitar sintomas autonômicos de ansiedade.`, `Certo. A inibição da CYP2D6 reduz a depuração da trazodona, exigindo cautela e redução da dose inicial caso a associação seja indispensável.`],
+  [20,`Farmacologia`,0,`O confômero de menor energia calculado in silico para uma molécula flexível corresponde obrigatoriamente à conformação ativa no sítio receptor.`, `Errado. A energia global de interação com a biomacromolécula na biofase pode induzir modificações conformacionais específicas distintas do mínimo energético isolado.`],
+  [21,`Farmacologia`,1,`Os derivados ergotamínicos como bromocriptina e pergolida associam-se a risco de fibrose pulmonar, pericárdica, retroperitoneal e valvulopatia cardíaca.`, `Certo. Por esse perfil de toxicidade fibrótica e vasoespasmo periférico, seu uso na doença de Parkinson tornou-se raro.`],
+  [22,`Farmacologia`,0,`Na intoxicação por paracetamol, a biotoxicação forma uma espécie reativa inócua incapaz de gerar bioadutos proteicos hepáticos.`, `Errado. A biotransformação oxidativa do paracetamol gera a iminoquinona reativa (NAPQI), que forma bioadutos covalentes quando há depleção de glutationa.`],
+  [23,`Farmacologia`,1,`A milrinona é eliminada predominantemente por via renal, enquanto a enoximona depende principalmente do metabolismo hepático.`, `Certo. Ambas possuem meia-vida de eliminação de cerca de 1 hora, porém com rotas de eliminação distintas.`],
+  [24,`Farmacologia`,0,`Na hipertensão arterial, recomenda-se escalonar um único fármaco até doses supramáximas tóxicas antes de associar um agente de outra classe farmacológica.`, `Errado. A boa prática determina não elevar excessivamente a dose de um único agente (o que aumenta efeitos adversos e ativa mecanismos compensatórios como liberação de renina), preferindo a associação racional.`],
+  [25,`Farmacologia`,1,`Na nefrite intersticial aguda alérgica ou anemia hemolítica autoimune induzida por penicilinas, a reação adversa classifica-se como Tipo B por envolver mecanismo imunológico idiossincrásico.`, `Certo. Reações de hipersensibilidade e citopenias imunomediadas não são extensão previsível da dose terapêutica.`],
+  [26,`Farmacologia`,0,`O mononitrato de isossorbida apresenta duração de ação mais curta e errática do que o dinitrato de isossorbida devido ao intenso efeito de primeira passagem.`, `Errado. O mononitrato de isossorbida não sofre metabolismo de primeira passagem significativo, oferecendo resposta mais previsível e de maior duração do que o dinitrato.`],
+  [27,`Farmacologia`,1,`Ao contrário das di-hidropiridinas (como nifedipino), o verapamil atua diretamente no tecido nodal cardíaco, evitando taquicardia reflexa.`, `Certo. Bloqueadores de canais de cálcio não di-hidropiridínicos exercem efeito cronotrópico e dromotrópico negativos.`],
+  [28,`Farmacologia`,0,`Polimorfismos genéticos nas enzimas CYP450 não exercem impacto clínico relevante na variabilidade de resposta entre pacientes.`, `Errado. Diferenças genéticas de expressão das isoenzimas CYP explicam metabolizadores lentos ou ultrarrápidos, exigindo individualização da dose.`],
+  [29,`Farmacologia`,1,`A reentrada eletrofisiológica ocorre quando o impulso elétrico reexcita áreas do miocárdio após o término do período refratário, perpetuando arritmias.`, `Certo. Lesões miocárdicas ou anomalias anatômicas criam circuitos de reentrada em átrios, ventrículos ou tecido nodal.`],
+  [30,`Farmacologia`,0,`Na fase farmacocinética, a forma ionizada de um ácido fraco atravessa a bicamada lipídica intestinal mais rapidamente do que a forma não ionizada.`, `Errado. A forma não ionizada (HA) é mais apolar e permeia melhor as membranas biológicas.`],
+  [31,`Farmacologia`,1,`Os fármacos estruturalmente específicos dependem da complementaridade espacial de seus grupamentos funcionais com o sítio de ligação da biomacromolécula-alvo.`, `Certo. O reconhecimento molecular estereoespecífico rege a afinidade e a seletividade por enzimas, receptores e canais.`],
+  [32,`Farmacologia`,0,`A ativação plaquetária é mediada exclusivamente por ácido araquidônico, sem participação de colágeno ou trombina.`, `Errado. Colágeno, trombina, ADP, serotonina e TXA2 atuam em receptores plaquetários específicos promovendo adesão e agregação.`],
+  [33,`Farmacologia`,1,`Na coleta de dados sobre medicamentos, o grau de ligação a proteínas plasmáticas influencia a fração livre farmacologicamente ativa e o volume de distribuição.`, `Certo. Apenas a fração não ligada às proteínas plasmáticas difunde-se aos tecidos e exerce efeito biológico.`],
+  [34,`Farmacologia`,0,`Os bloqueadores ganglionares e a reserpina permanecem como medicamentos anti-hipertensivos de primeira linha devido à sua excelente tolerabilidade.`, `Errado. Produziam graves efeitos adversos e depressão/hipotensão severa, tornando-se obsoletos frente a classes mais bem toleradas.`],
+
+  [35,`Farmácia Clínica`,1,`A Resolução CFF nº 585/2013 regulamenta as atribuições clínicas do farmacêutico em todos os níveis de atenção, incluindo a consulta farmacêutica em ambiente que garanta privacidade.`, `Certo. O art. 7º da Res. CFF 585/2013 assegura o provimento da consulta farmacêutica em consultório ou espaço privativo adequado.`],
+  [36,`Farmácia Clínica`,0,`A prescrição farmacêutica, regulada pela Resolução CFF nº 586/2013, dispensa a etapa de documentação do processo e o acompanhamento dos resultados em saúde.`, `Errado. A redação, a documentação do processo prescritivo e a avaliação dos resultados em saúde são etapas obrigatórias da prescrição farmacêutica.`],
+  [37,`Farmácia Clínica`,1,`No Método Dáder de acompanhamento farmacoterapêutico, a análise global antecede o plano de ação e envolve a elaboração do estado situacional do paciente.`, `Certo. O Método Dáder estrutura-se em Análise Global (estado situacional), Plano de Ação (intervenções) e Controle/Avaliação.`],
+  [38,`Farmácia Clínica`,0,`Durante a consulta farmacêutica, o profissional deve orientar o paciente de que o seguimento farmacoterapêutico substitui o retorno regular ao médico prescritor.`, `Errado. O farmacêutico deve esclarecer que sua atuação é complementar e integrada à equipe multiprofissional, nunca substituindo o acompanhamento médico.`],
+  [39,`Farmácia Clínica`,1,`A elaboração de uma lista atualizada e conciliada de medicamentos durante admissão, transferência e alta hospitalar é atribuição clínica prevista na Resolução CFF nº 585/2013.`, `Certo. A conciliação medicamentosa previne discrepâncias, omissões e duplicidades nas transições de cuidado.`],
+  [40,`Farmácia Clínica`,0,`A Resolução RDC Anvisa nº 44/2009 proíbe a aferição de glicemia capilar e pressão arterial em farmácias e drogarias comunitárias.`, `Errado. A RDC 44/2009 autoriza explicitamente a aferição de parâmetros fisiológicos (PA e temperatura) e bioquímico (glicemia capilar) como serviços de atenção farmacêutica.`],
+  [41,`Farmácia Clínica`,1,`Na anamnese farmacêutica, o perfil farmacoterapêutico deve contemplar medicamentos prescritos, isentos de prescrição, plantas medicinais, histórico de alergias e uso pregresso.`, `Certo. Plantas medicinais e MIPs podem causar interações e reações adversas clinicamente relevantes e devem integrar o histórico.`],
+  [42,`Farmácia Clínica`,0,`O uso de vasoconstritores nasais tópicos para congestão após resfriado deve ser mantido por no mínimo 15 dias consecutivos, guardando-se o frasco para episódios futuros.`, `Errado. O uso tópico de vasoconstritores nasais deve restringir-se ao máximo de 5 dias, descartando-se o frasco ao término para evitar efeito rebote e contaminação.`],
+  [43,`Farmácia Clínica`,1,`Diante de um lactente menor de 2 anos ou de uma gestante com distúrbio menor cutâneo ou respiratório, a conduta prioritária no cuidado farmacêutico é encaminhar para avaliação médica antes de instaurar terapia.`, `Certo. Crianças < 2 anos, gestantes, lactantes e presença de feridas ou sinais de alarme exigem avaliação médica.`],
+  [44,`Farmácia Clínica`,0,`A prescrição de medicamentos isentos de prescrição (MIP) pelo farmacêutico deve ser feita antes mesmo de verificar se o sintoma relatado é uma reação adversa a outro fármaco em uso.`, `Errado. Antes de recomendar qualquer MIP, o farmacêutico deve revisar toda a farmacoterapia para descartar PRM de segurança, interação ou RAM.`],
+  [45,`Farmácia Clínica`,1,`Cerca de 80% da população em países em desenvolvimento valoriza produtos de origem vegetal e frequentemente pressupõe, de forma equivocada, que fitoterápicos são isentos de toxicidade.`, `Certo. O preparo clínico do farmacêutico é vital para desmistificar a segurança absoluta dos produtos naturais e prevenir interações.`],
+  [46,`Farmácia Clínica`,0,`Na síndrome gripal versus resfriado comum, a rinite alérgica se diferencia tipicamente por cursar com febre alta (> 39 °C) e mialgia intensa.`, `Errado. Febre alta (> 39 °C), prostração e mialgia são típicos da gripe (Influenza); a rinite alérgica cursa de forma recorrente/persistente e sem febre.`],
+  [47,`Farmácia Clínica`,1,`No resfriado comum, febre persistente além de 72 horas, recorrência de hipertermia ou surgimento de taquipneia e retrações são sinais de alerta para complicação bacteriana.`, `Certo. Esses sinais sugerem possível evolução para otite média, sinusite aguda, bronquiolite ou pneumonia, exigindo encaminhamento médico.`],
+  [48,`Farmácia Clínica`,0,`No atendimento de primeira dispensação de um medicamento crônico, o farmacêutico deve focar apenas na adesão prévia, deixando para explicar nome e finalidade apenas na terceira dispensação.`, `Errado. Na primeira dispensação é essencial garantir que o paciente compreenda nome, indicação, posologia e efeitos esperados; nas seguintes monitora-se adesão, efetividade e segurança.`],
+  [49,`Farmácia Clínica`,1,`A seleção da terapia na prescrição farmacêutica deve considerar segurança, eficácia, custo e conveniência dentro do plano de cuidado pactuado com o paciente.`, `Certo. Esses quatro critérios norteiam o uso racional de medicamentos e a tomada de decisão compartilhada.`],
+  [50,`Farmácia Clínica`,0,`O Consenso Brasileiro de Atenção Farmacêutica (2002) define a atenção farmacêutica como atividade restrita à entrega técnica da caixa de medicamento no balcão.`, `Errado. O Consenso define como prática centrada no paciente, com atitudes éticas, corresponsabilidade, educação em saúde e obtenção de resultados mensuráveis.`],
+  [51,`Farmácia Clínica`,1,`A presença de dor epigástrica periódica 2 a 5 horas após refeições ou em jejum, com alívio noturno após alimentos ou antiácidos, sugere suspeita clínica de úlcera péptica.`, `Certo. Contudo, idosos e usuários crônicos de AINEs podem apresentar úlcera péptica assintomática, exigindo vigilância ativa.`],
+  [52,`Farmácia Clínica`,0,`Na diarreia aguda, a diarreia deve ser tratada farmacologicamente como doença primária isolada, sem investigar sinais de desidratação ou toxinas.`, `Errado. A diarreia é sintoma de um transtorno; deve-se avaliar etiologia, hidratação e sinais de alarme antes de adotar medidas.`],
+  [53,`Farmácia Clínica`,1,`O farmacêutico tem direito, pelo Código de Ética Farmacêutica, de interagir com o prescritor para assegurar segurança e eficácia com base no uso racional de medicamentos.`, `Certo. A comunicação interprofissional ética e fundamentada em evidências é direito e dever clínico do farmacêutico.`],
+  [54,`Farmácia Clínica`,0,`Estabelecer parâmetros bioquímicos e fisiológicos de rastreamento em saúde está fora do escopo legal das atribuições clínicas do farmacêutico brasileiro.`, `Errado. A determinação e avaliação de parâmetros bioquímicos e fisiológicos para acompanhamento e rastreamento constam expressamente na Res. CFF 585/2013.`],
+  [55,`Farmácia Clínica`,1,`Quando o paciente não possui condições financeiras para adquirir o medicamento prescrito, o farmacêutico deve contatar o prescritor para discutir alternativas terapêuticas acessíveis.`, `Certo. A acessibilidade e conveniência integram o sucesso da adesão e da farmacoterapia.`],
+  [56,`Farmácia Clínica`,0,`No tratamento da acne pelo farmacêutico, basta entregar um sabonete abrasivo sem avaliar distribuição das lesões, faixa etária ou tratamentos prévios.`, `Errado. O cuidado envolve exame completo, classificação do grau, regulação da seborreia, desobstrução folicular, redução bacteriana e prevenção de cicatrizes.`],
+  [57,`Farmácia Clínica`,1,`A psicoeducação estruturada em pacientes com transtornos mentais graves e persistentes reduz comprovadamente recaídas e readmissões hospitalares.`, `Certo. Informações didáticas sobre a doença e o tratamento somadas ao suporte emocional capacitam o paciente e seus cuidadores.`],
+  [58,`Farmácia Clínica`,0,`Os objetivos da atenção farmacêutica limitam-se a indicadores econômicos da farmácia, sem relação com metas humanísticas ou qualidade de vida.`, `Errado. A atenção farmacêutica busca resultados clínicos e humanísticos definitivos que melhorem a qualidade de vida do paciente.`],
+  [59,`Farmácia Clínica`,1,`A solicitação de exames laboratoriais no âmbito da competência do farmacêutico tem por finalidade monitorar os resultados e a segurança da farmacoterapia.`, `Certo. Prevista no inciso XI da Res. CFF 585/2013 para avaliação de efetividade e toxicidade.`],
+  [60,`Farmácia Clínica`,0,`Na dispensação, orientar sobre a influência dos alimentos e condições de conservação do produto é etapa dispensável caso conste na bula.`, `Errado. A orientação ativa sobre posologia, alimentos, interações, RAM potenciais e conservação faz a diferença no sucesso do tratamento.`],
+  [61,`Farmácia Clínica`,1,`Pacientes idosos, crianças, transplantados, polimedicados e usuários de fármacos de baixo índice terapêutico são grupos prioritários para seguimento farmacoterapêutico hospitalar.`, `Certo. Esses perfis apresentam maior vulnerabilidade a PRM e geram maior impacto clínico nas intervenções.`],
+  [62,`Farmácia Clínica`,0,`Na avaliação da farmacoterapia do paciente com doença de Alzheimer, nunca ocorrem problemas por medicamento desnecessário.`, `Errado. Automedicação e indicações inadequadas (inclusive fármacos anticolinérgicos que pioram a cognição) são PRM frequentes nesse grupo.`],
+  [63,`Farmácia Clínica`,1,`Na cessação do tabagismo, a combinação de terapia de reposição de nicotina (TRN) com bupropiona mostrou maior eficácia do que a bupropiona em monoterapia.`, `Certo. Metanálises apontam risco relativo de sucesso superior (RR 1,24) com a terapia combinada frente à monoterapia.`],
+  [64,`Farmácia Clínica`,0,`O uso tópico de sulfeto de selênio xampu a 2,5% deve ser aplicado inclusive sobre áreas extensas da pele inflamada e sem enxágue posterior.`, `Errado. Deve-se evitar contato com olhos e áreas inflamadas/extensas e enxaguar após 10 minutos de aplicação.`],
+  [65,`Farmácia Clínica`,1,`O farmacêutico deve avaliar se o medicamento em uso tem indicação clínica real, efetividade no alcance da meta e perfil de segurança aceitável antes de propor ajustes.`, `Certo. Essa sequência lógica (Indicação -> Efetividade -> Segurança -> Adesão) estrutura a revisão sistemática da farmacoterapia.`],
+  [66,`Farmácia Clínica`,0,`A Resolução CFF nº 596/2014 excluiu o farmacêutico da responsabilidade sanitária na promoção da saúde coletiva.`, `Errado. O Código de Ética Farmacêutica reafirma o farmacêutico como profissional da saúde comprometido com a promoção da saúde individual e coletiva.`],
+  [67,`Farmácia Clínica`,1,`A formação clínica do farmacêutico demanda harmonização entre o conhecimento técnico-lógico-racional e a compreensão humano-subjetivo-crítica do significado que o paciente atribui à doença.`, `Certo. Entender crenças, experiências e preocupações do paciente é essencial para a adesão e o cuidado centrado na pessoa.`],
+
+  [68,`Farmácia Hospitalar`,1,`Estudos hospitalares demonstram que cerca de 10% dos atendimentos apresentam eventos adversos com dano, dos quais aproximadamente 50% são evitáveis.`, `Certo. Dados consolidados da OMS, ANVISA e literatura internacional reforçam a urgência de barreiras sistêmicas de segurança.`],
+  [69,`Farmácia Hospitalar`,0,`No processo hospitalar de medicação, cerca de 58% dos eventos adversos ocorrem na etapa de dispensação da farmácia e apenas 2% na prescrição.`, `Errado. A distribuição é inversa: cerca de 58% ocorrem na prescrição, 40% na administração e apenas 2% na dispensação.`],
+  [70,`Farmácia Hospitalar`,1,`A unitarização de doses consiste em preparar e identificar o medicamento em forma pronta para administração, reduzindo manipulação e erros na enfermaria.`, `Certo. Cada unidose deve conter nome (técnica Caixa Alta/Baixa), concentração, forma farmacêutica, lote e validade.`],
+  [71,`Farmácia Hospitalar`,0,`A gestão de estoques na farmácia hospitalar deve basear-se exclusivamente na curva ABC econômica, desconsiderando a criticidade clínica dos itens.`, `Errado. O modelo ideal combina a curva ABC (impacto financeiro) com a classificação XYZ (criticidade clínica/risco assistencial para o paciente).`],
+  [72,`Farmácia Hospitalar`,1,`A técnica de Caixa Alta e Caixa Baixa (Tall Man Lettering) na rotulagem de medicamentos unitarizados ajuda a prevenir erros por semelhança ortográfica (LASA).`, `Certo. Destacar sílabas distintas em nomes parecidos reduz a troca acidental durante a separação e administração.`],
+  [73,`Farmácia Hospitalar`,0,`Na metodologia Lean Healthcare, o ciclo PDSA substitui a etapa "Check" por "Study", com o propósito de reduzir a profundidade da análise estatística.`, `Errado. O "S" de Study significa estudar e aprofundar a compreensão das causas e variações do processo, indo além de uma checagem superficial.`],
+  [74,`Farmácia Hospitalar`,1,`Os "9 Certos" da administração segura de medicamentos incluem, além dos clássicos medicação, paciente, dose, via e horário, os itens registro, ação, forma farmacêutica e monitoramento certos.`, `Certo. A verificação dos 9 Certos amplia a barreira de segurança desde o preparo até a vigilância pós-administração.`],
+  [75,`Farmácia Hospitalar`,0,`Pelo Protocolo de Londres 2024, a primeira medida após um incidente grave com dano é punir imediatamente o profissional envolvido antes de assistir o paciente.`, `Errado. A prioridade absoluta é o atendimento imediato ao paciente/família e o Disclosure (comunicação aberta), sob uma cultura justa e investigativa.`],
+  [76,`Farmácia Hospitalar`,1,`Na formação da equipe investigadora segundo o Protocolo de Londres 2024, recomenda-se ao menos duas pessoas: uma com conhecimento clínico não envolvida no evento e outra experiente em investigação.`, `Certo. Além disso, os investigadores não devem ser chefes diretos dos colaboradores entrevistados.`],
+  [77,`Farmácia Hospitalar`,0,`Sistemas eletrônicos de prescrição e prontuário eliminam 100% dos riscos assistenciais e nunca introduzem novos tipos de erro.`, `Errado. Embora aumentem a segurança, sistemas eletrônicos podem introduzir riscos próprios (seleção errada em menus, falhas de software/conteúdo clínico).`],
+  [78,`Farmácia Hospitalar`,1,`O código de barras seriado na unitarização atribui identidade única a cada embalagem individual, permitindo rastrear exatamente se e quando determinado paciente recebeu aquela dose.`, `Certo. A serialização individual garante rastreabilidade completa até a beira do leito.`],
+  [79,`Farmácia Hospitalar`,0,`Desperdícios hospitalares estimados em torno de 30% só podem ser reduzidos mediante expansão física de leitos e redução na qualidade dos insumos.`, `Errado. Melhorar a qualidade e aplicar ferramentas Lean (5S, Kanban, VSM, eliminação de Muda) gera maior sustentabilidade e rentabilidade do que expandir leitos com processos ineficientes.`],
+  [80,`Farmácia Hospitalar`,1,`A busca ativa de eventos adversos por meio de medicamentos gatilhos (triggers) permite identificar danos ocultos que não foram notificados espontaneamente.`, `Certo. Rastreadores como antídotos (naloxona, flumazenil, vitamina K) sinalizam potenciais eventos adversos para investigação.`],
+  [81,`Farmácia Hospitalar`,0,`Uma ampola comercial diluída apenas na enfermaria imediatamente antes do uso pode ser classificada logisticamente como dose unitária pronta pela farmácia.`, `Errado. Para ser considerada unitarizada pronta para administração, nenhuma preparação adicional deve ser necessária posteriormente.`],
+  [82,`Farmácia Hospitalar`,1,`A Comissão de Farmácia e Terapêutica (CFT) conta com a participação do farmacêutico na seleção e padronização de medicamentos e elaboração de guias farmacoterapêuticos.`, `Certo. Regulamentada pela Res. CFF 619/2015, a atuação na CFT promove uso racional e controle orçamentário.`],
+  [83,`Farmácia Hospitalar`,0,`Na análise de estoques de antimicrobianos hospitalares, a maioria absoluta do orçamento costuma distribuir-se uniformemente entre todos os itens padronizados.`, `Errado. Pela curva ABC, poucos itens (ex.: ~19% dos itens) concentram a maior parte dos custos (~77% do gasto com antimicrobianos).`],
+  [84,`Farmácia Hospitalar`,1,`Na matriz de fatores contribuintes do Protocolo de Londres, analisam-se fatores do paciente, desenho da tarefa/protocolos, fatores individuais da equipe, dinâmica de equipe e fatores organizacionais.`, `Certo. A investigação sistêmica evita explicações simplistas e identifica "erros latentes" ou "patógenos residentes" na organização.`],
+  [85,`Farmácia Hospitalar`,0,`Manter itens recebidos em trânsito sem lançamento de nota fiscal no sistema não afeta a acuracidade de inventário nem as compras emergenciais.`, `Errado. Itens sem entrada de NF distorcem o saldo contábil, prejudicam a acuracidade do estoque e desencadeiam pedidos urgentes desnecessários.`],
+  [86,`Farmácia Hospitalar`,1,`A Farmácia Lean utiliza o sistema Kanban para controle visual de reposição de estoques e nivelamento de tarefas (load levelling) para evitar sobrecarga e atrasos.`, `Certo. O controle visual torna desvios e pontos de reposição imediatamente perceptíveis à equipe.`],
+  [87,`Farmácia Hospitalar`,0,`Em um hospital, a cultura organizacional moderna recomendada para segurança do paciente deve ser baseada em poder verticalizado e sigilo sobre falhas.`, `Errado. Recomenda-se uma cultura justa, mais horizontalizada, transparente e baseada em valores e regras explícitas.`],
+  [88,`Farmácia Hospitalar`,1,`Atrasos na entrega de medicamentos e materiais para salas cirúrgicas geram desperdício de recursos parcialmente disponíveis e comprometem o início seguro de procedimentos.`, `Certo. A logística sincronizada (just-in-time) evita ociosidade de equipe e salas.`],
+  [89,`Farmácia Hospitalar`,0,`O estoque máximo representa a quantidade mínima abaixo da qual o hospital entra imediatamente em ruptura de abastecimento.`, `Errado. O estoque mínimo (ou de segurança) protege contra variações de demanda e prazo de entrega; o estoque máximo evita excessos e perdas por validade.`],
+  [90,`Farmácia Hospitalar`,1,`A padronização e redução de opções terapêuticas redundantes na Farmácia Lean simplifica fluxos, reduz erros de seleção e diminui o capital imobilizado em estoque.`, `Certo. Menor variabilidade desnecessária aumenta a segurança e a acuracidade.`],
+  [91,`Farmácia Hospitalar`,0,`A análise de quase falhas (near misses) é irrelevante para os Núcleos de Segurança do Paciente, devendo-se investigar apenas óbitos.`, `Errado. Investigar quase falhas revela fragilidades latentes antes que causem danos reais aos pacientes.`],
+  [92,`Farmácia Hospitalar`,1,`Ferramentas da qualidade como Diagrama de Ishikawa, 5 Porquês, 5W2H e FMEA apoiam a identificação de causas-raiz e planos de ação na farmácia hospitalar.`, `Certo. Essas ferramentas estruturam a resolução de problemas complexos sem respostas superficiais.`],
+  [93,`Farmácia Hospitalar`,0,`A automação com dispensários eletrônicos aumenta a taxa de incidentes na dispensação por eliminar a conferência humana.`, `Errado. Estudos indicam que dispensários eletrônicos e rastreamento reduzem incidentes de dispensação, desvios e perdas por validade.`],
+  [94,`Farmácia Hospitalar`,1,`Em casos de contaminação cruzada ou falhas sistêmicas graves, o dever contínuo de cuidado da instituição inclui convocar e acompanhar todos os pacientes potencialmente expostos.`, `Certo. O Protocolo de Londres exemplifica o rastreamento e testagem de coortes expostas quando há risco biológico.`],
+  [95,`Farmácia Hospitalar`,0,`A edição dos layouts de etiquetas de unitarização pode ser feita livremente por qualquer operador sem critérios definidos.`, `Errado. A edição de layouts de unitarização deve ser restrita aos farmacêuticos, seguindo critérios técnicos e legais definidos.`],
+  [96,`Farmácia Hospitalar`,1,`Uma resposta simples para um problema assistencial complexo constitui um erro metodológico; a solução deve ter nível de profundidade compatível com a complexidade do sistema.`, `Certo. O pensamento sistêmico previne intervenções cosméticas ineficazes.`],
+  [97,`Farmácia Hospitalar`,0,`Farmácias satélites hospitalares devem operar sem controle de devoluções nem planilhas de perdas para agilizar o atendimento.`, `Errado. Devoluções estruturadas, planilhas de perdas e ajustes analisados por causa-raiz são determinantes para a acuracidade do estoque.`],
+  [98,`Farmácia Hospitalar`,1,`A presença do farmacêutico clínico nas visitas médicas permite cálculos de PK/PD para antimicrobianos e ajuste posológico em populações renal, pediátrica e idosa.`, `Certo. A atuação integrada reduz eventos adversos e tempo de internação.`],
+  [99,`Farmácia Hospitalar`,0,`Na gestão de resíduos farmacêuticos hospitalares, pacientes e acompanhantes devem ser dispensados de orientações sobre descarte, pois isso compete só à coleta urbana.`, `Errado. A conscientização de pacientes, acompanhantes e equipe sobre descarte seguro evita contaminação ambiental e automedicação.`],
+  [100,`Farmácia Hospitalar`,1,`O cálculo do estoque médio permite determinar o giro de estoque, indicando quantas vezes o inventário foi consumido e reposto em determinado período.`, `Certo. O giro de estoque orienta compras, validade e eficiência financeira.`],
+
+  [101,`Antibioticoterapia`,1,`Para atingir as proteínas ligadoras de penicilina (PBP) das bactérias Gram-negativas, os betalactâmicos precisam atravessar canais proteicos chamados porinas na membrana externa.`, `Certo. Em Gram-positivos as PBP são mais acessíveis; em Gram-negativos a permeação por porinas no espaço periplásmico é etapa crítica.`],
+  [102,`Antibioticoterapia`,0,`A associação de amoxicilina com ácido clavulânico recupera a eficácia contra Streptococcus pneumoniae resistente à penicilina por alteração de PBP.`, `Errado. O clavulanato inibe betalactamases, mas não supera a resistência mediada por PBP de baixa afinidade (como no pneumococo resistente ou MRSA).`],
+  [103,`Antibioticoterapia`,1,`A penicilina G cristalina em doses muito elevadas (> 30 milhões UI/dia ou > 18 milhões UI/dia com disfunção renal) pode desencadear toxicidade no SNC, como convulsões e mioclonia.`, `Certo. O acúmulo liquórico por dose excessiva ou insuficiência renal reduz o limiar convulsivo.`],
+  [104,`Antibioticoterapia`,0,`Na suspeita de meningite bacteriana em gestantes, adultos acima de 50 anos ou portadores de HIV, ceftriaxona em monoterapia oferece cobertura completa para Listeria monocytogenes.`, `Errado. Cefalosporinas não cobrem Listeria; nesses grupos é obrigatório associar ampicilina (2 g IV 4/4h) ao esquema.`],
+  [105,`Antibioticoterapia`,1,`A "síndrome do homem vermelho" associada à vancomicina decorre da liberação de histamina relacionada à infusão rápida, sendo manejada com redução da velocidade de infusão e uso eventual de anti-histamínico.`, `Certo. Não é alergia IgE verdadeira; diluição adequada (2,5–5 mg/mL) e infusão lenta (30–60 min ou mais) previnem o quadro.`],
+  [106,`Antibioticoterapia`,0,`A vancomicina deve ser administrada preferencialmente por via intramuscular devido à excelente tolerabilidade local.`, `Errado. O uso IM de vancomicina deve ser evitado por ser extremamente irritante e doloroso; utiliza-se via IV (ou via oral exclusivamente na colite por C. difficile).`],
+  [107,`Antibioticoterapia`,1,`No tratamento da colite pseudomembranosa por Clostridioides difficile, recomenda-se vancomicina por via oral na dose de 125 mg a cada 6 horas por 10 a 14 dias.`, `Certo. A vancomicina oral não é absorvida significativamente, atingindo altas concentrações intraluminais no cólon.`],
+  [108,`Antibioticoterapia`,0,`A clindamicina exige redução de 75% da dose quando o clearance de creatinina está abaixo de 15 mL/min.`, `Errado. A clindamicina possui eliminação predominantemente hepática/biliar e não requer ajuste para função renal.`],
+  [109,`Antibioticoterapia`,1,`A doxiciclina é o antimicrobiano de escolha nas rickettsioses (como a febre maculosa) e uma alternativa eficaz aos macrolídeos para pneumonias atípicas por Mycoplasma e Chlamydia pneumoniae.`, `Certo. Deve-se, porém, evitar seu uso em crianças menores de 8 anos e gestantes pelo risco de pigmentação dentária.`],
+  [110,`Antibioticoterapia`,0,`Os macrolídeos inibem a síntese proteica ligando-se à subunidade ribossômica 30S e possuem farmacodinâmica concentração-dependente.`, `Errado. Macrolídeos ligam-se à subunidade 50S e apresentam atividade farmacodinâmica tempo-dependente.`],
+  [111,`Antibioticoterapia`,1,`Na antibioticoprofilaxia cirúrgica, a dose inicial deve ser administrada por via endovenosa na indução anestésica (exceto em partos, após clampeamento), evitando ultrapassar 24 a 48 horas.`, `Certo. Manter profilaxia além do recomendado seleciona flora resistente sem reduzir infecção de sítio cirúrgico.`],
+  [112,`Antibioticoterapia`,0,`Febre isolada em paciente internado, sem quaisquer outros sinais ou evidências de foco infeccioso, é indicação imediata para iniciar antibioticoterapia empírica.`, `Errado. Antibióticos não são antipiréticos; causas não infecciosas de febre devem ser investigadas antes de iniciar antimicrobianos.`],
+  [113,`Antibioticoterapia`,1,`Na neutropenia febril pediátrica sem foco evidente e sem instabilidade hemodinâmica ou suspeita de Gram-positivo, inicia-se monoterapia com cefepima 50 mg/kg/dose a cada 8 horas.`, `Certo. Associa-se vancomicina se houver infecção de cateter/pele/pneumonia/cocos Gram+ e amicacina se sepse franca ou choque.`],
+  [114,`Antibioticoterapia`,0,`Na infecção urinária baixa (cistite) em mulheres não gestantes, é obrigatório aguardar o resultado da urocultura para iniciar o tratamento.`, `Errado. Em mulheres não gestantes com cistite típica o diagnóstico é clínico; já em gestantes e homens é mandatório colher urina I e urocultura.`],
+  [115,`Antibioticoterapia`,1,`Em pacientes com função renal reduzida (ClCr 10–50 mL/min), a cefepima de referência (2 g 8/8–12/12h) deve ter seu intervalo ampliado para cada 24 horas.`, `Certo. E em ClCr < 10 mL/min ou CAPD o intervalo passa a cada 48 horas, evitando neurotoxicidade.`],
+  [116,`Antibioticoterapia`,0,`O ciprofloxacino não necessita de ajuste de dose na insuficiência renal grave (ClCr < 10 mL/min), diferentemente do moxifloxacino.`, `Errado. O ciprofloxacino exige redução para 50% da dose em ClCr < 10 mL/min, enquanto o moxifloxacino não necessita ajuste renal.`],
+  [117,`Antibioticoterapia`,1,`Na meningite bacteriana pós-trauma cranioencefálico, neurocirurgia ou derivação ventricular externa (DVE), associa-se vancomicina com ceftazidima ou meropenem.`, `Certo. Esse esquema cobre estafilococos resistentes e bacilos Gram-negativos hospitalares, incluindo Pseudomonas.`],
+  [118,`Antibioticoterapia`,0,`A associação de vancomicina com aminoglicosídeos reduz o risco de nefrotoxicidade por efeito protetor tubular mútuo.`, `Errado. A coadministração de vancomicina e aminoglicosídeos potencializa a nefrotoxicidade e a ototoxicidade de ambos.`],
+  [119,`Antibioticoterapia`,1,`Em pacientes neutropênicos ou com infecção de cateter venoso central de longa permanência sem remoção imediata, colhem-se dois pares de hemoculturas periféricas e cultura pericateter, iniciando vancomicina empírica.`, `Certo. A presença de Candida spp. ou bactérias MDR ou febre persistente por 48–72 h costuma indicar retirada do cateter.`],
+  [120,`Antibioticoterapia`,0,`A cefalotina e a cefazolina (cefalosporinas de 1ª geração) exigem ajuste rigoroso para ClCr < 50 mL/min segundo a tabela de referência clínica, sendo a cefalotina indolor por via IM.`, `Errado. A cefalotina tem uso IM muito doloroso e geralmente não exige ajuste renal na tabela padrão; a cefazolina também requer atenção apenas em quedas acentuadas conforme protocolo.`],
+  [121,`Antibioticoterapia`,1,`A cefepima é uma cefalosporina de 4ª geração estável frente a diversas betalactamases e eficaz tanto contra Pseudomonas quanto contra estafilococos sensíveis à oxacilina.`, `Certo. Porém não possui atividade contra MRSA, Enterococcus ou anaeróbios como Bacteroides fragilis.`],
+  [122,`Antibioticoterapia`,0,`A combinação de múltiplos antimicrobianos nunca se justifica na clínica médica, devendo-se usar sempre monoterapia mesmo em endocardite ou tuberculose.`, `Errado. Terapia combinada justifica-se em infecções polimicrobianas, para evitar resistência (M. tuberculosis, Pseudomonas), infecções graves empíricas e sinergismo na endocardite.`],
+  [123,`Antibioticoterapia`,1,`Na peritonite bacteriana espontânea (PBE) complicada por choque, encefalopatia, hemorragia digestiva ou disfunção renal, recomenda-se cefotaxima 2 g IV 8/8h associada à albumina.`, `Certo. Na PBE não complicada pode-se usar ceftriaxona 1 g IV 12/12h ou ciprofloxacino (evitando este se já em profilaxia com norfloxacino).`],
+  [124,`Antibioticoterapia`,0,`Na cistite por Enterobactérias, a fosfomicina trometamol é administrada por via endovenosa contínua durante 14 dias.`, `Errado. A fosfomicina é administrada por via oral em sachê de 3 g diluível em dose única para cistite não complicada.`],
+  [125,`Antibioticoterapia`,1,`Fatores de risco importantes para colite por Clostridioides difficile incluem uso prévio de antibióticos, inibidores de bomba de prótons (IBP) ou bloqueadores H2 e idade avançada.`, `Certo. O uso de IBP reduz a barreira ácida gástrica e contribui para disbiose intestinal.`],
+  [126,`Antibioticoterapia`,0,`Para adultos com peso inferior a 70 kg submetidos à cirurgia que exige profilaxia com cefazolina, deve-se dobrar a dose padrão para 4 g na indução.`, `Errado. A recomendação geral de antibioticoprofilaxia cirúrgica com cefazolina/cefoxitina indica 1 g em pacientes < 70 kg (e 2 g acima desse peso ou em cirurgias de maior porte).`],
+  [127,`Antibioticoterapia`,1,`A mucormicose por fungos Mucorales tem como principais fatores de risco cetoacidose diabética, uso de corticoides, neoplasias hematológicas, transplantes e sobrecarga de ferro com deferoxamina.`, `Certo. O reconhecimento precoce em diabéticos descompensados é vital pela evolução rapidamente invasiva.`],
+  [128,`Antibioticoterapia`,0,`No tratamento da malária grave por Plasmodium falciparum com artesunato IV em adultos e crianças, não se deve associar clindamicina em nenhuma fase.`, `Errado. O artesunato IV para malária grave por P. falciparum é classicamente associado à clindamicina conforme os esquemas de referência.`],
+  [129,`Antibioticoterapia`,1,`A azitromicina na dose de 500 mg VO/EV uma vez ao dia não necessita de ajuste posológico para insuficiência renal.`, `Certo. Diferentemente da claritromicina, que requer ajuste quando ClCr < 50 mL/min.`],
+  [130,`Antibioticoterapia`,0,`A carbenicilina e a ticarcilina protegem a hemostasia plaquetária e reduzem o risco de sangramento em pacientes renais.`, `Errado. Carbenicilina e ticarcilina podem prolongar o tempo de sangramento e predispor a hemorragia, além de causar sobrecarga sódica em altas doses.`],
+  [131,`Antibioticoterapia`,1,`Na criança com alergia grave a betalactâmicos que apresenta infecção grave por cocos Gram-positivos, a vancomicina é uma alternativa fundamental.`, `Certo. A vancomicina cobre S. aureus e estreptococos sem apresentar reatividade cruzada com o anel betalactâmico.`],
+  [132,`Antibioticoterapia`,0,`Em crianças com mais de 30 dias de vida, a dose máxima diária pediátrica recomendada de vancomicina IV é de 12 g/dia.`, `Errado. A dose pediátrica de vancomicina é 10–15 mg/kg IV a cada 8 h com dose máxima diária de 2 g (12 g/dia é a dose máxima da oxacilina pediátrica).`],
+  [133,`Antibioticoterapia`,1,`Na profilaxia da endocardite bacteriana quando indicada vancomicina, administra-se 20 mg/kg/dose 1 hora antes do procedimento.`, `Certo. O esquema segue o timing pré-procedimento para garantir concentração bactericida sérica no momento da bacteremia.`],
+  [134,`Antibioticoterapia`,0,`Na meningite bacteriana neonatal (< 1 mês), utiliza-se ceftriaxona associada a ciprofloxacino como esquema padrão de primeira escolha.`, `Errado. Em menores de 1 mês recomenda-se ampicilina associada a cefotaxima, gentamicina ou amicacina.`],
+  [135,`Antibioticoterapia`,1,`A eritromicina exige ajuste de intervalo de 6/6h para 12/12h quando o clearance de creatinina está abaixo de 10 mL/min.`, `Certo. Embora tenha metabolismo hepático expressivo, em ClCr < 10 mL/min dobra-se o intervalo para evitar ototoxicidade.`],
+
+  [136,`Injetáveis e Vacinas`,1,`Após aspirar o conteúdo de uma ampola de vidro, o farmacêutico deve trocar a agulha por uma nova estéril antes da aplicação no paciente.`, `Certo. O contato do bisel com a parede de vidro desgasta a ponta da agulha, aumentando a dor e o trauma tecidual na aplicação.`],
+  [137,`Injetáveis e Vacinas`,0,`Para quebrar uma ampola com segurança, deve-se pressionar o gargalo no sentido contrário ao corpo do profissional, apontando o vidro em direção ao rosto.`, `Errado. A pressão rápida e firme deve ser feita no sentido a favor do corpo do profissional (com compressa seca ou face estéril da embalagem), afastando estilhaços do rosto e dedos.`],
+  [138,`Injetáveis e Vacinas`,1,`Na seleção do local para injeção subcutânea, deve-se considerar espessura do tecido subcutâneo para comportar o volume, ausência de músculos muito espessos e distância de proeminências ósseas e nervos.`, `Certo. Locais com menor inervação e fácil realização da prega subcutânea asseguram absorção adequada e menor dor.`],
+  [139,`Injetáveis e Vacinas`,0,`O uso de luvas descartáveis durante a aplicação de vacinas e injetáveis é obrigatório em qualquer situação, mesmo sem risco de contato com fluidos ou pele não íntegra, dispensando higiene das mãos.`, `Errado. A higiene das mãos é sempre obrigatória; luvas são indicadas quando houver possibilidade de contato com sangue, secreções, mucosas ou pele não íntegra.`],
+  [140,`Injetáveis e Vacinas`,1,`Um acidente ocupacional perfurocortante com exposição de risco ao HIV ou hepatite B deve ser tratado como urgência médica para início imediato da profilaxia pós-exposição.`, `Certo. A efetividade da profilaxia antirretroviral e para HBV depende criticamente da precocidade do início.`],
+  [141,`Injetáveis e Vacinas`,0,`O ácido tranexâmico injetável pode ser administrado pelas vias endovenosa, intramuscular e subcutânea, podendo ser infundido na mesma linha que ceftriaxona.`, `Errado. O ácido tranexâmico é de uso exclusivamente endovenoso, deve ser aplicado isoladamente (velocidade máx. 50 mg/min) e é incompatível com ceftriaxona, cefazolina, omeprazol e diazepam.`],
+  [142,`Injetáveis e Vacinas`,1,`A furosemida injetável não deve ser misturada a outros medicamentos parenterais na mesma seringa ou frasco, apresentando incompatibilidade com diazepam e fenitoína.`, `Certo. Permite apenas injeção na parte inferior do circuito durante infusão contínua de SF 0,9% ou SG 5%, respeitando compatibilidade.`],
+  [143,`Injetáveis e Vacinas`,0,`Após reconstituição e diluição, a hidrocortisona apresenta estabilidade de 48 horas em soro glicosado a 5% e apenas 2 horas em soro fisiológico 0,9%.`, `Errado. Sua estabilidade após diluição é de 6 horas em SG 5% e 12 horas em SF 0,9%.`],
+  [144,`Injetáveis e Vacinas`,1,`A solução diluída de metoclopramida é estável por até 24 horas à temperatura ambiente desde que protegida da luz, e sua dose deve ser reduzida em 75% quando ClCr ≤ 15 mL/min.`, `Certo. É incompatível com ampicilina sódica, furosemida, cloranfenicol, bicarbonato de sódio e gluconato de cálcio.`],
+  [145,`Injetáveis e Vacinas`,0,`Para uso intramuscular, a cefepima pode ser misturada diretamente na mesma seringa com amicacina ou gentamicina para evitar duas picadas.`, `Errado. Não se deve misturar cefepima com aminoglicosídeos devido à inativação físico-química direta entre as moléculas.`],
+  [146,`Injetáveis e Vacinas`,1,`A administração rápida da vancomicina ou em diluição insuficiente (muito concentrada) aumenta significativamente o risco de dor, flebite e hipotensão/reação histaminérgica.`, `Certo. Deve-se reconstituir a 50 mg/mL e rediluir para 2,5 a 5 mg/mL antes de infundir lentamente.`],
+  [147,`Injetáveis e Vacinas`,0,`A ampola de ácido tranexâmico aberta parcialmente utilizada pode ser fracionada e armazenada em geladeira por até 7 dias para outro paciente.`, `Errado. Não se recomenda o fracionamento do conteúdo da ampola; após aberta deve ser utilizada imediatamente.`],
+  [148,`Injetáveis e Vacinas`,1,`A vacina adsorvida contra hepatite A em menores de 2 anos deve ser aplicada preferencialmente por via IM profunda na coxa (vasto lateral), enquanto em maiores de 2 anos e adultos prefere-se a região deltoide.`, `Certo. O volume é 0,5 mL de 1 a 18 anos e 1,0 mL em adultos acima de 18 anos.`],
+  [149,`Injetáveis e Vacinas`,0,`Na terapia com furosemida EV em doses acima de 40 mg, recomenda-se infusão rápida em bolus de 10 segundos para evitar flebite.`, `Errado. Doses acima de 40 mg devem ser diluídas em 250 mL de SF 0,9% e infundidas em cerca de 60 minutos (prevenindo ototoxicidade).`],
+  [150,`Injetáveis e Vacinas`,1,`A resolução CFF nº 574/2013 estabeleceu atribuições e competências do farmacêutico na dispensação e aplicação de vacinas em farmácias e drogarias.`, `Certo. Marco regulatório importante para a expansão dos serviços farmacêuticos de imunização no Brasil.`],
+  [151,`Injetáveis e Vacinas`,0,`Na preparação de seringas estéreis, é aceitável encostar os dedos no bico da seringa ou no canhão da agulha, desde que se utilize álcool gel logo depois.`, `Errado. Deve-se evitar rigorosamente o contato das mãos e superfícies não estéreis com agulha, bico, canhão e haste/êmbolo da seringa.`],
+  [152,`Injetáveis e Vacinas`,1,`A administração de ferro por via endovenosa é indicada na anemia ferropriva quando há intolerância gastrintestinal ao ferro oral, falha terapêutica ou necessidade de correção rápida.`, `Certo. O ferro parenteral contorna a limitação de absorção intestinal em situações clínicas específicas.`],
+  [153,`Injetáveis e Vacinas`,0,`Em pediatria, o dicloridrato de quinina para malária grave deve ser infundido em bolus de 2 minutos em solução concentrada sem diluição.`, `Errado. Deve ser diluído em SG 5% (para 2 mg/mL, 10 mL/kg) e infundido lentamente ao longo de 4 horas.`],
+  [154,`Injetáveis e Vacinas`,1,`Para coleta de urina em paciente com cateter vesical de demora, deve-se higienizar as mãos, clampear abaixo do adaptador, desinfetar o látex com álcool 70% e aspirar com agulha e seringa estéreis.`, `Certo. Nunca colher da bolsa coletora; encaminhar rapidamente ou refrigerar até 1 hora.`],
+  [155,`Injetáveis e Vacinas`,0,`A metilergometrina injetável (0,2 mg/mL) pode ser administrada em bolus rápido de 5 segundos por via EV sem precauções em nefropatas.`, `Errado. A via EV deve ser lenta (≥ 1 minuto) e utilizada com cautela em pacientes com insuficiência renal.`],
+  [156,`Injetáveis e Vacinas`,1,`A hidrocortisona é incompatível com diazepam, fenitoína, midazolam, metilprednisolona sódica, prometazina e lansoprazol.`, `Certo. A verificação prévia de compatibilidade em Y evita precipitação e perda de atividade no acesso venoso.`],
+  [157,`Injetáveis e Vacinas`,0,`A seringa preparada antes da aplicação pode ser apoiada diretamente sobre a bancada de atendimento sem proteção, mantendo sua esterilidade.`, `Errado. Deve ser mantida com tampa protetora da agulha e acomodada em superfície limpa, preferencialmente dentro da própria embalagem original.`],
+  [158,`Injetáveis e Vacinas`,1,`O interferon peguilado pó liofilizado é aplicado por via subcutânea (abdômen, coxa ou superfície externa do braço), exigindo exames laboratoriais prévios e periódicos.`, `Certo. Febre durante o tratamento pode sinalizar infecção e requer investigação clínica.`],
+  [159,`Injetáveis e Vacinas`,0,`Na hipoglicemia neonatal tratada com hidrocortisona, utiliza-se a dose de 100 mg/kg/dose em bolus único.`, `Errado. Para neonatos na hipoglicemia utiliza-se hidrocortisona 10 mg/kg/dia divididos a cada 12 horas.`],
+  [160,`Injetáveis e Vacinas`,1,`Na técnica asséptica de aspiração da ampola, recomenda-se aspirar o conteúdo imediatamente após a quebra para evitar exposição prolongada ao ar e contaminação.`, `Certo. Reduz o risco microbiológico e a formação de microbolhas.`],
+
+  [161,`Farmacoterapia e Psicofármacos`,1,`Para pacientes hipertensos com risco cardiovascular alto ou muito alto, 3 ou mais fatores de risco, diabetes ou doença renal com proteinúria > 1,0 g/L, a meta pressórica recomendada é < 130/80 mmHg.`, `Certo. Para os demais pacientes hipertensos sem essas condições, a meta geral preconizada é < 140/90 mmHg.`],
+  [162,`Farmacoterapia e Psicofármacos`,0,`Betabloqueadores são a terapia inicial preferencial em pacientes acima de 60 anos sem comorbidades cardíacas, por não causarem bradicardia nem hipotensão postural.`, `Errado. Acima de 60 anos exigem uso cauteloso pelo risco de bradicardia e hipotensão postural, sendo reservados a situações especiais (coronariopatia, arritmias, IC, IAM prévio).`],
+  [163,`Farmacoterapia e Psicofármacos`,1,`Os critérios diagnósticos de Diabetes Mellitus incluem glicemia de jejum ≥ 126 mg/dL, glicemia 2h pós-TOTG ≥ 200 mg/dL ou HbA1c ≥ 6,5% confirmada em outra coleta.`, `Certo. Glicemia casual ≥ 200 mg/dL acompanhada de sintomas clássicos também confirma o diagnóstico.`],
+  [164,`Farmacoterapia e Psicofármacos`,0,`Na insulinoterapia plena, a dose de insulina basal diária deve corresponder a apenas 5% a 10% da dose total diária, ficando 90% para bolus.`, `Errado. A insulina basal diária recomendada corresponde a 40% a 60% da dose total (0,5 a 2,0 U/kg/dia), ficando o restante para bolus refeição e correção.`],
+  [165,`Farmacoterapia e Psicofármacos`,1,`A associação de genfibrozila (fibrato) com estatinas é desaconselhada devido ao aumento expressivo do risco de rabdomiólise.`, `Certo. Além disso, os fibratos aumentam as concentrações séricas de varfarina e hipoglicemiantes orais.`],
+  [166,`Farmacoterapia e Psicofármacos`,0,`Os ácidos graxos ômega-3 reduzem triglicerídeos em 25–30% e demonstraram em meta-análises recentes redução robusta e consistente de mortalidade global.`, `Errado. Eles reduzem triglicerídeos (podendo elevar LDL), mas meta-análises recentes não confirmaram benefício na redução de eventos CV ou mortalidade global.`],
+  [167,`Farmacoterapia e Psicofármacos`,1,`Os efeitos clínicos dos fármacos antitireoidianos demoram várias semanas para se manifestar porque a tireoglobulina armazena grande reserva de hormônios já sintetizados.`, `Certo. Eles bloqueiam a síntese de novos hormônios, mas não impedem a secreção do estoque pré-formado; o PTU ainda inibe a conversão periférica T4→T3.`],
+  [168,`Farmacoterapia e Psicofármacos`,0,`Pacientes com bócios muito volumosos e T3 superior a 500 ng/dL respondem de forma excelente e definitiva apenas aos fármacos antitireoidianos, dispensando radioiodo.`, `Errado. Bócios volumosos e T3 > 500 ng/dL respondem mal aos antitireoidianos, sendo o tratamento com radioiodo considerado primeira escolha nesses casos.`],
+  [169,`Farmacoterapia e Psicofármacos`,1,`A confirmação diagnóstica da asma por espirometria baseia-se na redução da relação VEF1/CVF (< 0,75–0,80 em adultos; < 0,90 em crianças) com reversibilidade após broncodilatador de curta ação.`, `Certo. A espirometria também avalia gravidade e resposta ao tratamento.`],
+  [170,`Farmacoterapia e Psicofármacos`,0,`O zolpidem pertence à classe dos benzodiazepínicos clássicos e pode ser usado continuamente por 12 meses sem risco de sobrecarga hepática.`, `Errado. O zolpidem é uma imidazopiridina; seu uso recomendado é de curto prazo (máximo 4 semanas), pois uso prolongado ou abusivo eleva enzimas hepáticas e risco de toxicidade.`],
+  [171,`Farmacoterapia e Psicofármacos`,1,`O zolpidem apresenta interações moderadas com escitalopram, duloxetina, pregabalina e alprazolam, e interação grave potencial quando associado a paracetamol + hidrocodona.`, `Certo. A depressão aditiva do SNC e o risco de toxicidade exigem revisão criteriosa na prescrição.`],
+  [172,`Farmacoterapia e Psicofármacos`,0,`Na transição de um inibidor da monoaminoxidase (IMAO) para um antagonista de receptor serotoninérgico, o novo fármaco pode ser iniciado no mesmo dia sem intervalo de segurança.`, `Errado. É contraindicado o uso concomitante e exige-se intervalo mínimo de 14 dias após o término do IMAO pelo risco de síndrome serotoninérgica.`],
+  [173,`Farmacoterapia e Psicofármacos`,1,`Antiarrítmicos de classe IA e III (como amiodarona e sotalol) associados a haloperidol, ziprasidona, quetiapina ou antidepressivos tricíclicos possuem efeito aditivo no prolongamento do intervalo QT.`, `Certo. Deve-se evitar a combinação e orientar busca imediata se houver síncope, palpitações ou tontura.`],
+  [174,`Farmacoterapia e Psicofármacos`,0,`A associação de ziprasidona com tramadol, bupropiona ou teofilina reduz o risco de convulsões por elevar o limiar epileptogênico.`, `Errado. Todos esses agentes são epileptogênicos e sua associação aumenta o risco de convulsões.`],
+  [175,`Farmacoterapia e Psicofármacos`,1,`Para atingir eficácia antipsicótica na esquizofrenia, os neurolépticos necessitam bloquear aproximadamente 80% dos receptores dopaminérgicos D2.`, `Certo. Acima desse limiar aumentam intensamente os efeitos extrapiramidais.`],
+  [176,`Farmacoterapia e Psicofármacos`,0,`A associação de levodopa com inibidores da MAO (como tranilcipromina) é segura e reduz a pressão arterial por inibir a dopamina periférica.`, `Errado. É uma associação perigosa que provoca grave crise hipertensiva por acúmulo de catecolaminas.`],
+  [177,`Farmacoterapia e Psicofármacos`,1,`Antipsicóticos fenotiazínicos ou butirofenônicos (clorpromazina, haloperidol) associados a adrenalina podem provocar grave hipotensão e taquicardia paradoxal.`, `Certo. O bloqueio alfa-adrenérgico do antipsicótico deixa predominar o efeito beta-2 vasodilatador da adrenalina.`],
+  [178,`Farmacoterapia e Psicofármacos`,0,`Anti-inflamatórios não esteroides (AINEs) podem ser utilizados livremente no terceiro trimestre da gestação sem risco renal ou cardiovascular fetal.`, `Errado. Nos dois últimos trimestres de gestação estão associados a insuficiência renal neonatal, fechamento precoce do canal arterial e óbito.`],
+  [179,`Farmacoterapia e Psicofármacos`,1,`Em idosos, medicamentos como flurazepam e clordiazepóxido apresentam meia-vida prolongada, causando sedação excessiva e maior risco de quedas e fraturas.`, `Certo. Da mesma forma, clorpropamida aumenta risco de hipoglicemia prolongada severa em idosos.`],
+  [180,`Farmacoterapia e Psicofármacos`,0,`As resinas sequestradoras de ácidos biliares aumentam a absorção intestinal de levotiroxina, digoxina, varfarina e vitaminas lipossolúveis.`, `Errado. As resinas reduzem a absorção desses fármacos, devendo-se respeitar espaçamento rigoroso de horários.`],
+  [181,`Farmacoterapia e Psicofármacos`,1,`O ácido valproico (anticonvulsivante) requer vigilância de função hepática, especialmente em crianças menores de 3 anos, além de poder causar trombocitopenia e aumento do tempo de sangramento.`, `Certo. Administrar junto às refeições minimiza irritação gástrica.`],
+  [182,`Farmacoterapia e Psicofármacos`,0,`O alopurinol deve ser administrado em jejum absoluto e estimula o uso seguro durante toda a gestação e lactação sem monitoramento de ácido úrico.`, `Errado. Deve ser tomado após refeições com bastante líquido, evitado na gestação/lactação e monitorado para manter ácido úrico ≤ 6 mg/dL.`],
+  [183,`Farmacoterapia e Psicofármacos`,1,`O droperidol pode induzir efeitos extrapiramidais e exige cautela em pacientes com depressão grave, hipocalemia ou prolongamento prévio do intervalo QT.`, `Certo. Deve ser evitado na gestação e lactação.`],
+  [184,`Farmacoterapia e Psicofármacos`,0,`Na abordagem de pacientes hipertensos com hipertrofia prostática benigna, os alfabloqueadores (doxazosina) pioram a urodinâmica e nunca causam hipotensão de primeira dose.`, `Errado. Alfabloqueadores melhoram o fluxo urinário e o perfil lipídico discretamente, mas têm como efeito típico a hipotensão postural acentuada na primeira dose.`],
+  [185,`Farmacoterapia e Psicofármacos`,1,`Os inibidores do DPP-4 (gliptinas) e análogos do GLP-1 (liraglutida) atuam sobre mecanismos hormonais intestinais (incretínicos) para estimular a secreção de insulina dependente de glicose.`, `Certo. Enquanto biguanidas (metformina) e glitazonas reduzem resistência periférica à insulina.`],
+  [186,`Farmacoterapia e Psicofármacos`,0,`A vasopressina injetável (0,03 a 0,1 UI/min) é utilizada ambulatorialmente como anti-hipertensivo leve de primeira linha.`, `Errado. É vasopressor restrito ao paciente crítico em choque refratário, geralmente em associação com noradrenalina.`],
+  [187,`Farmacoterapia e Psicofármacos`,1,`A pré-eclâmpsia surge geralmente após a 20ª semana de gestação com hipertensão associada a proteinúria e/ou edema, podendo evoluir rapidamente para eclâmpsia convulsiva.`, `Certo. O monitoramento farmacêutico e obstétrico rigoroso é essencial em gestantes de risco.`],
+  [188,`Farmacoterapia e Psicofármacos`,0,`A amissulprida é segura para uso concomitante com levodopa e indicada para pacientes com câncer de mama ou feocromocitoma.`, `Errado. É contraindicada na gestação, lactação, crianças, feocromocitoma e câncer de mama (por hiperprolactinemia), e não deve ser associada à levodopa.`],
+  [189,`Farmacoterapia e Psicofármacos`,1,`A norepinefrina em infusão contínua exige vigilância contra hipertensão severa, arritmias e edema pulmonar agudo, devendo-se evitar retirada abrupta pelo risco de hipotensão recorrente.`, `Certo. O desmame gradual com monitorização hemodinâmica contínua é regra na UTI.`],
+  [190,`Farmacoterapia e Psicofármacos`,0,`Os antineoplásicos que causam necrose tecidual por extravasamento permitem aplicação segura fora de protocolo mesmo em pacientes com insuficiência hepática severa sem ajuste de dose.`, `Errado. Exigem ajuste ou contraindicação na insuficiência hepática severa e rigorosa prevenção de extravasamento.`],
+  [191,`Farmacoterapia e Psicofármacos`,1,`Na terapia do paciente com hipertensão arterial, a redução do peso, restrição de sódio e gorduras saturadas, aumento de frutas/fibras e atividade física integram o tratamento não farmacológico obrigatório.`, `Certo. O farmacêutico deve pactuar metas de adesão e incentivar acompanhamento nutricional e físico.`],
+  [192,`Farmacoterapia e Psicofármacos`,0,`Medicamentos como metildopa, propranolol e benzodiazepínicos melhoram a memória de curto prazo em idosos e nunca desencadeiam quadros depressivos.`, `Errado. Podem agravar declínio cognitivo/perda de memória e, no caso da metildopa, betabloqueadores e corticoides, desencadear ou exacerbar depressão.`],
+  [193,`Farmacoterapia e Psicofármacos`,1,`A dobutamina é um agonista beta-1 seletivo utilizado na insuficiência cardíaca aguda potencialmente reversível (choque cardiogênico/pós-operatório) para elevar o débito cardíaco.`, `Certo. Produz aumento de débito com redução da pressão de enchimento ventricular.`],
+  [194,`Farmacoterapia e Psicofármacos`,0,`Na abordagem do paciente com dislipidemia, níveis de HDL ≤ 40 mg/dL em homens ou ≤ 46 mg/dL em mulheres reduzem o risco cardiovascular associado à hipertensão.`, `Errado. HDL baixo e triglicerídeos > 150 mg/dL ou LDL ≥ 100 mg/dL são fatores de risco cardiovascular adicionais na estratificação do hipertenso.`],
+  [195,`Farmacoterapia e Psicofármacos`,1,`A síndrome neuroléptica maligna, distonia, discinesia tardia e agranulocitose são eventos adversos graves potenciais dos antipsicóticos clássicos, exigindo avaliação periódica para menor dose eficaz.`, `Certo. A prescrição de psicofármacos deve evitar rotulação reducionista e consumismo indiscriminado.`],
+  [196,`Farmacoterapia e Psicofármacos`,0,`Na acidose metabólica tratada com bicarbonato de sódio injetável, a fórmula de reposição usa o peso multiplicado por 5,0 e visa atingir pH acima de 7,60 imediatamente.`, `Errado. A fórmula é [Bicarb. Desejado - Bicarb. Encontrado] × 0,5 × peso (kg), objetivando bicarbonato ~10 mEq/L e pH entre 7,15 e 7,20 inicialmente.`],
+  [197,`Farmacoterapia e Psicofármacos`,1,`A imunoterapia com nivolumabe (frasco-ampola 40 mg/4 mL ou 100 mg/10 mL) pode provocar reações infusionais e eventos imunomediados (pneumonite, hepatite, nefrite), requerendo interrupção ou descontinuação.`, `Certo. A farmacovigilância ativa desses eventos precoces reduz morbidade grave.`],
+  [198,`Farmacoterapia e Psicofármacos`,0,`A bupropiona e os antidepressivos tricíclicos elevam o limiar convulsivo e reduzem o risco de crises epilépticas quando associados à ziprasidona.`, `Errado. Aumentam o risco de convulsões; em associações inevitáveis deve-se iniciar com doses menores e monitorar rigorosamente.`],
+  [199,`Farmacoterapia e Psicofármacos`,1,`As formulações atuais de contraceptivos hormonais combinados possuem doses hormonais menores e perfil de segurança elevado, devendo a escolha individualizar riscos e efeitos indesejáveis.`, `Certo. Cabe ao farmacêutico orientar sobre uso correto, interações (ex.: indutores enzimáticos) e manejo de efeitos leves.`],
+  [200,`Farmacoterapia e Psicofármacos`,0,`A insulina NPH é classificada como análogo de ação ultrarrápida para administração imediatamente antes das refeições em substituição à lispro ou asparte.`, `Errado. A NPH é insulina de ação intermediária (usualmente 2x/dia como basal), enquanto regular (rápida) e lispro/asparte/glulisina (ultrarrápidas) são usadas em bolus.`]
+];
+
+const QUESTIONS = Q_RAW.map(q => ({
+  id: q[0],
+  domain: q[1],
+  ans: q[2] === 1,
+  text: q[3],
+  exp: q[4]
+}));
+
+// =========================================================
+// 3. 50 CASOS CLÍNICOS PRÁTICOS INTERATIVOS
+// Formato: [id, category, title, vignette, options[4], correctIdx, rationale, safetyTip]
+// =========================================================
+const CASES_RAW = [
+  [1,`Farmacoterapia`,`Hipertensão e Risco Cardiovascular Alto`,
+   `Paciente masculino, 62 anos, hipertenso, portador de Diabetes Mellitus tipo 2 e DRC com proteinúria de 1,4 g/L. Comparece à consulta farmacêutica com PA média de 136/86 mmHg em uso de enalapril.`,
+   [`Manter conduta, pois toda meta de PA em adultos é < 140/90 mmHg.`,`Considerar meta < 130/80 mmHg por alto risco CV e proteinúria > 1 g/L, discutindo otimização terapêutica.`,`Suspender o enalapril por causar tosse seca inevitável e trocar por doxazosina.`,`Substituir imediatamente por betabloqueador em monoterapia.`],1,
+   `Diretrizes de hipertensão estabelecem meta < 130/80 mmHg para hipertensos de risco alto/muito alto, DM ou insuficiência renal com proteinúria > 1,0 g/L.`,
+   `Avaliar adesão e função renal/potássio antes de sugerir ajuste ao prescritor.`],
+
+  [2,`Farmacoterapia`,`Risco de Rabdomiólise na Dislipidemia`,
+   `Paciente de 58 anos com dislipidemia mista (TG 380 mg/dL, LDL 160 mg/dL) traz receita contendo sinvastatina 40 mg/dia associada à genfibrozila 600 mg 12/12h.`,
+   [`Dispensar normalmente, pois genfibrozila é o fibrato mais seguro com estatinas.`,`Contatar o prescritor alertando sobre o risco elevado de rabdomiólise na associação sinvastatina + genfibrozila.`,`Orientar tomar os dois comprimidos juntos em jejum para potencializar o efeito.`,`Substituir a sinvastatina por colestiramina sem comunicar o médico.`],1,
+   `A associação específica de genfibrozila com estatinas é desaconselhada pelo aumento expressivo de rabdomiólise; além disso, fibratos elevam varfarina e hipoglicemiantes.`,
+   `Investigar mialgia, fraqueza muscular e urina escura.`],
+
+  [3,`Farmacoterapia`,`Hipotireoidismo e Resina Sequestradora`,
+   `Paciente feminina, 50 anos, usa levotiroxina 75 mcg às 7h e recebeu prescrição de colestiramina em pó para hipercolesterolemia.`,
+   [`Orientar ingerir a levotiroxina junto com o sachê de colestiramina no café da manhã.`,`Orientar espaçamento rigoroso de horários (ex.: levotiroxina em jejum e resina horas depois) para evitar redução da absorção.`,`Suspender a levotiroxina durante o uso da resina.`,`Trocar a levotiroxina por propiltiouracila.`],1,
+   `Resinas reduzem a absorção intestinal de levotiroxina, digoxina, varfarina, tetraciclinas, tiazidas, ferro e vitaminas lipossolúveis.`,
+   `Monitorar TSH após introdução de fármacos quelantes ou sequestradores.`],
+
+  [4,`Farmacoterapia`,`Início de Ação no Hipertireoidismo`,
+   `Jovem de 24 anos iniciou metimazol há 10 dias para hipertireoidismo leve com bócio pequeno e retorna frustrada à farmácia pois ainda sente taquicardia e tremor.`,
+   [`Dobrar a dose por conta própria, pois o efeito deveria ocorrer em 24 horas.`,`Explicar que antitireoidianos bloqueiam a síntese, mas não a secreção do estoque na tireoglobulina, levando semanas para efeito pleno.`,`Trocar para radioiodo imediatamente no balcão.`,`Associar amiodarona para controlar a tireoide.`],1,
+   `A tireoglobulina armazena grande reserva de T3 e T4; os antitireoidianos demoram semanas para depletar esse estoque e normalizar o metabolismo.`,
+   `Verificar se há betabloqueador prescrito para controle sintomático inicial.`],
+
+  [5,`Farmacoterapia`,`Diagnóstico de Diabetes Mellitus`,
+   `Paciente assintomático apresenta glicemia de jejum de 129 mg/dL e HbA1c de 6,7% em exame laboratorial isolado trazido ao consultório farmacêutico.`,
+   [`Descartar diabetes, pois o ponto de corte de HbA1c é ≥ 8,0%.`,`Orientar que os valores preenchem critérios para DM e necessitam confirmação em segunda coleta e avaliação médica.`,`Iniciar insulina NPH 1,0 U/kg/dia imediatamente.`,`Prescrever clorpropamida por ser a opção mais segura para idosos.`],1,
+   `Pela ADA e SBD, glicemia de jejum ≥ 126 mg/dL ou HbA1c ≥ 6,5% (confirmada em outra coleta) definem Diabetes Mellitus.`,
+   `Na primeira dispensação futura, assegurar compreensão de metas e sinais de hipoglicemia.`],
+
+  [6,`Farmacoterapia`,`Esquema Basal-Bolus de Insulina`,
+   `Paciente com DM1 de 60 kg utiliza 40 U/dia de insulina total, porém recebe 36 U de insulina regular antes das refeições e apenas 4 U de NPH ao deitar, apresentando hiperglicemia matinal.`,
+   [`O esquema está ideal, pois basal deve ser 10% da dose total.`,`A proporção está desequilibrada: recomenda-se que 40% a 60% da dose total diária seja insulina basal e o restante bolus refeição/correção.`,`Deve-se misturar análogo ultrarrápido com NPH na mesma hora de dormir para dobrar o pico noturno.`,`Suspender toda insulina basal e manter apenas regular 1x/dia.`],1,
+   `Em geral, a dose diária varia de 0,5 a 2,0 U/kg/dia, com 40%–60% em basal e o restante distribuído em bolus.`,
+   `Revisar técnica de rodízio subcutâneo e monitorização capilar.`],
+
+  [7,`Farmacoterapia`,`Diagnóstico Espirométrico de Asma`,
+   `Criança de 9 anos com chiado noturno recorrente realiza espirometria mostrando VEF1/CVF de 0,78 basal e aumento expressivo do VEF1 após salbutamol inalatório.`,
+   [`Espirometria normal para criança, pois o corte pediátrico é 0,60.`,`Em crianças o valor normal de VEF1/CVF é > 0,90; a redução com reversibilidade ao broncodilatador confirma asma.`,`Indica fibrose pulmonar irreversível; suspender broncodilatadores.`,`Trata-se apenas de resfriado comum autolimitado.`],1,
+   `Valores normais de VEF1/CVF são > 0,75–0,80 em adultos e > 0,90 em crianças; limitação reversível confirma asma.`,
+   `Conferir técnica correta do dispositivo inalatório e espaçador.`],
+
+  [8,`Farmacoterapia`,`Idoso e Risco de Hipoglicemia Prolongada`,
+   `Senhor de 79 anos, morador solitário, recebe prescrição de clorpropamida para DM2 e flurazepam para insônia.`,
+   [`Dispensar ambos sem restrições, pois têm meia-vida ultracurta em idosos.`,`Alertar sobre alto risco: clorpropamida tem meia-vida prolongada (hipoglicemia grave) e flurazepam gera sedação prolongada e quedas em idosos.`,`Orientar tomar o flurazepam pela manhã após o café.`,`Substituir o flurazepam por amitriptilina 100 mg.`],1,
+   `Ambas constam nos quadros de drogas a evitar/usar com extrema precaução em idosos pelo acúmulo farmacocinético.`,
+   `Avaliar alternativas mais seguras junto ao médico e revisar função renal.`],
+
+  [9,`Farmacoterapia`,`Gestação e Uso de AINEs`,
+   `Gestante no terceiro trimestre (32 semanas) procura analgésico na farmácia para lombalgia intensa, solicitando naproxeno ou nimesulida.`,
+   [`Dispensar naproxeno por 10 dias por ser seguro no final da gravidez.`,`Contraindicar AINEs nos dois últimos trimestres devido ao risco de insuficiência renal neonatal e óbito fetal, encaminhando ao obstetra.`,`Indicar nimesulida 100 mg 12/12h por ser seletiva segura.`,`Associar enalapril para prevenir pré-eclâmpsia.`],1,
+   `AINEs devem ser evitados nos dois últimos trimestres da gestação por eventos neonatais graves (insuficiência renal, oligoidrâmnio, fechamento do canal arterial).`,
+   `IECAs também são teratogênicos/contraindicados na gestação.`],
+
+  [10,`Farmacoterapia`,`Idoso Hipertenso e Betabloqueador`,
+   `Paciente de 74 anos com hipertensão arterial essencial isolada (sem coronariopatia, arritmia ou IC) apresenta FC de 50 bpm e tontura ao levantar após início de atenolol.`,
+   [`Aumentar a dose do atenolol para 100 mg 12/12h.`,`Identificar RAM por betabloqueador (bradicardia e hipotensão postural) e discutir troca para classe preferencial com o médico.`,`Associar metildopa para normalizar a frequência cardíaca.`,`Orientar levantar rapidamente da cama pela manhã.`],1,
+   `Em > 60 anos, betabloqueadores exigem cautela pelo risco de bradicardia e hipotensão postural, sendo reservados para indicações específicas (coronariopatia, IC, arritmias).`,
+   `Aferir PA sentado e em ortostase durante a consulta farmacêutica.`],
+
+  [11,`Antibioticoterapia`,`Síndrome do Homem Vermelho`,
+   `Paciente internado inicia infusão de vancomicina 1 g diluída em 100 mL de SF 0,9% em 15 minutos, evoluindo com rubor intenso em pescoço e face, prurido e calor difuso.`,
+   [`Diagnosticar anafilaxia IgE e proibir qualquer glicopeptídeo pelo resto da vida.`,`Reconhecer reação por infusão rápida (liberação de histamina); interromper temporariamente, rediluir (2,5–5 mg/mL), reduzir velocidade (≥ 60 min) e avaliar anti-histamínico.`,`Trocar a via para intramuscular profunda imediatamente.`,`Associar amicacina na mesma bolsa para estabilizar a vancomicina.`],1,
+   `A síndrome do homem vermelho é reação não imunológica dependente da taxa de infusão e concentração; infusão lenta resolve e previne recorrência.`,
+   `Monitorar função renal e nível sérico de vale (15–20 µg/mL) conforme protocolo.`],
+
+  [12,`Antibioticoterapia`,`Ajuste Renal de Cefepima`,
+   `Homem de 70 anos, 65 kg, com pneumonia hospitalar e ClCr estimado de 28 mL/min está prescrito com cefepima 2 g IV a cada 8 horas.`,
+   [`Manter 2 g de 8/8h, pois a cefepima tem eliminação 100% biliar.`,`Propor ajuste posológico ao prescritor: para ClCr entre 10 e 50 mL/min, ampliar o intervalo da dose de referência para a cada 24 horas.`,`Suspender cefepima e iniciar nitrofurantoína VO para pneumonia.`,`Administrar cefepima junto com bicarbonato na mesma via.`],1,
+   `Sem ajuste na disfunção renal, cefepima acumula no SNC provocando encefalopatia, mioclonia e convulsões.`,
+   `Sempre calcular o ClCr antes da liberação de cefepima em idosos.`],
+
+  [13,`Antibioticoterapia`,`Meningite em Idoso ou Gestante`,
+   `Paciente de 66 anos dá entrada no pronto-socorro com febre, rigidez de nuca e líquor purulento compatível com meningite bacteriana aguda comunitária.`,
+   [`Prescrever apenas ceftriaxona 2 g IV 12/12h em monoterapia.`,`Associar ampicilina 2 g IV 4/4h à ceftriaxona para assegurar cobertura de Listeria monocytogenes (> 50 anos).`,`Tratar com azitromicina 500 mg VO dose única.`,`Usar vancomicina via oral 125 mg 6/6h.`],1,
+   `Em adultos > 50 anos, gestantes e imunossuprimidos (HIV), Listeria exige acréscimo de ampicilina ao esquema de ceftriaxona.`,
+   `Garantir intervalo rigoroso de 4/4h da ampicilina e início precoce.`],
+
+  [14,`Antibioticoterapia`,`Colite Pseudomembranosa Pós-Antibiótico`,
+   `Idosa internada há 10 dias que usou clindamicina e omeprazol apresenta diarreia aquosa intensa, leucocitose e toxina positiva para Clostridioides difficile.`,
+   [`Prescrever vancomicina 1 g IV 12/12h isolada, pois tem maior penetração no lúmen intestinal.`,`Iniciar vancomicina 125 mg por via ORAL a cada 6 horas por 10 a 14 dias (associando IV apenas se megacólon/íleo grave).`,`Manter a clindamicina por mais 14 dias e dobrar o omeprazol.`,`Tratar com cefalexina oral 500 mg 6/6h.`],1,
+   `A vancomicina IV não atinge níveis luminais eficazes no cólon; a via oral (125 mg 6/6h por 10–14d) atua diretamente contra C. difficile.`,
+   `Reavaliar necessidade real de manutenção do IBP e instituir precaução de contato.`],
+
+  [15,`Antibioticoterapia`,`Neutropenia Febril Pediátrica`,
+   `Criança de 6 anos em quimioterapia apresenta contagem de neutrófilos de 300/mm³ e pico febril de 38,8 °C, em bom estado geral, sem foco infeccioso aparente ou hiperemia de cateter.`,
+   [`Aguardar 72 horas sem antibiótico até sair hemocultura.`,`Iniciar Esquema 1 em monoterapia com cefepima 50 mg/kg/dose IV a cada 8 horas após coleta de exames.`,`Iniciar imediatamente Esquema 3 triplo (cefepima + vancomicina + amicacina) sem critérios de choque.`,`Tratar ambulatorialmente com amoxicilina oral.`],1,
+   `Na neutropenia febril pediátrica estável sem evidência de Gram+ ou sepse franca, cefepima monoterapia é o Esquema 1 padrão.`,
+   `Monitorar temperatura e sinais hemodinâmicos para eventual escalonamento.`],
+
+  [16,`Antibioticoterapia`,`Resistência do Pneumococo e Clavulanato`,
+   `Paciente com pneumonia por Streptococcus pneumoniae resistente à penicilina (por alteração de PBP) recebe prescrição de amoxicilina + ácido clavulânico em dose padrão.`,
+   [`O clavulanato resolve totalmente essa resistência ao bloquear a PBP alterada.`,`Alertar que a associação com clavulanato não melhora eficácia para pneumococo resistente, pois o mecanismo não é produção de betalactamase.`,`Trocar para azitromicina IM associada a fosfomicina.`,`Reduzir a dose da amoxicilina pela metade.`],1,
+   `Inibidores de betalactamase só protegem o anel contra hidrólise enzimática; resistência por PBP de baixa afinidade exige outra abordagem ou dose otimizada conforme sensibilidade.`,
+   `Conferir antibiograma e gravidade clínica para definir conduta.`],
+
+  [17,`Antibioticoterapia`,`Profilaxia Cirúrgica em Ortopedia/Cardíaca`,
+   `Cirurgião solicita manter cefazolina 2 g IV 8/8h por 7 dias no pós-operatório de cirurgia cardíaca limpa sem qualquer sinal de infecção.`,
+   [`Aprovar por 7 dias para garantir esterilidade prolongada da ferida.`,`Intervir orientando que a profilaxia cirúrgica deve ser feita na indução anestésica e não ultrapassar 24–48 horas.`,`Trocar por meropenem + vancomicina por 14 dias como profilaxia.`,`Passar cefazolina para via oral por 10 dias.`],1,
+   `Prolongar antibioticoprofilaxia além de 24–48 h não reduz infecção cirúrgica e aumenta resistência bacteriana e colite por C. difficile.`,
+   `Diferenciar claramente profilaxia de tratamento de infecção instalada.`],
+
+  [18,`Antibioticoterapia`,`Pneumonia Atípica em Adulto vs Criança`,
+   `Adulto jovem com pneumonia atípica por Mycoplasma pneumoniae possui alergia grave a macrolídeos (azitromicina/claritromicina).`,
+   [`Prescrever penicilina benzatina IM dose única.`,`Utilizar doxiciclina como excelente alternativa aos macrolídeos para infecções por M. pneumoniae e C. pneumoniae em adultos.`,`Indicar vancomicina EV por falta de parede celular do Mycoplasma.`,`Prescrever cefalexina VO.`],1,
+   `Mycoplasma não possui parede celular (betalactâmicos e glicopeptídeos são inativos); doxiciclina é escolha alternativa eficaz em adultos e crianças > 8 anos.`,
+   `Orientar ingerir doxiciclina com bastante água e permanecer ereto para evitar esofagite.`],
+
+  [19,`Antibioticoterapia`,`Cistite na Gestante`,
+   `Gestante de 22 semanas refere disúria e polaciúria há 2 dias. Solicita fosfomicina diretamente sem exames.`,
+   [`Dispensar ciprofloxacino por 5 dias sem exames.`,`Orientar que em gestantes é indispensável realizar Urina I e Urocultura, além de avaliação médica para escolha segura na gravidez.`,`Tratar como mulher não gestante sem necessidade de urocultura.`,`Indicar tetraciclina oral por 7 dias.`],1,
+   `Diferentemente de mulheres não gestantes, gestantes com suspeita de ITU exigem urina I e urocultura obrigatórias pelo risco de pielonefrite e complicações obstétricas.`,
+   `Quinolonas e tetraciclinas são evitadas na gestação.`],
+
+  [20,`Antibioticoterapia`,`Piperacilina-Tazobactam na Insuficiência Renal`,
+   `Paciente séptico em UTI apresenta ClCr de 14 mL/min e prescrição de piperacilina + tazobactam 4,5 g IV a cada 6 horas.`,
+   [`Manter 4,5 g 6/6h por ser fármaco isento de excreção renal.`,`Sugerir ajuste para ClCr < 20 mL/min: 2,25 g IV a cada 8 horas (e dose adicional de 0,75 g após hemodiálise, se aplicável).`,`Diminuir apenas para 4,5 g 4/4h.`,`Substituir por amoxicilina suspensão oral.`],1,
+   `O ajuste renal adequado da piperacilina-tazobactam evita acúmulo neurológico e hematológico mantendo eficácia tempo-dependente.`,
+   `Verificar se o paciente está em diálise contínua (onde o esquema difere: 4,5 g 12/12h).`],
+
+  [21,`Diluição de Injetáveis`,`Incompatibilidade com Ácido Tranexâmico`,
+   `Enfermeiro questiona se pode correr ácido tranexâmico 500 mg em Y na mesma via venosa em que infunde ceftriaxona ou omeprazol.`,
+   [`Sim, ácido tranexâmico é compatível com todos os betalactâmicos.`,`Não: ácido tranexâmico deve ser aplicado isoladamente, é incompatível com ceftriaxona, cefazolina, omeprazol, diazepam e aminofilina, e a velocidade máx. é 50 mg/min.`,`Aplicar o ácido tranexâmico por via intramuscular para evitar o acesso venoso.`,`Infundir em bolus rápido de 5 segundos.`],1,
+   `Incompatibilidades físico-químicas causam precipitação no cateter e perda terapêutica; nunca administrar ácido tranexâmico IM ou SC.`,
+   `Diluir em 100 mL de SF 0,9% ou SG 5% (estável 24 h) e proteger da luz.`],
+
+  [22,`Diluição de Injetáveis`,`Estabilidade da Hidrocortisona`,
+   `Na central de diluição, foram preparados dois frascos de hidrocortisona 100 mg: um em SG 5% e outro em SF 0,9%, ambos armazenados há 10 horas antes da administração.`,
+   [`Ambos estão estáveis por 72 horas em temperatura ambiente.`,`O frasco em SF 0,9% mantém estabilidade (12 h), porém o diluído em SG 5% venceu o prazo de 6 horas e deve ser descartado.`,`Ambos devem ser misturados com fenitoína para estabilizar.`,`Reconstituir com 50 mL de diazepam.`],1,
+   `Segundo o Manual de Diluição, após diluição a hidrocortisona é estável por 6 h em SG 5% e 12 h em SF 0,9%; apresenta incompatibilidade com fenitoína, diazepam, midazolam e prometazina.`,
+   `Sempre rotular horário exato de preparo e validade pós-diluição.`],
+
+  [23,`Diluição de Injetáveis`,`Metoclopramida em Nefropata e Fotoproteção`,
+   `Paciente com ClCr de 12 mL/min recebe prescrição de metoclopramida 10 mg IV de 8/8h diluída em bolsa sem proteção da luz e conectada junto à furosemida.`,
+   [`Conduta perfeita, sem ajustes ou incompatibilidades.`,`Intervir: reduzir dose em 75% (ClCr ≤ 15 mL/min), proteger da luz após diluição (estável 24 h) e separar da furosemida por incompatibilidade.`,`Aumentar a dose em 50% por perda dialítica.`,`Misturar com bicarbonato de sódio para neutralizar o pH.`],1,
+   `Metoclopramida acumula na disfunção renal grave (risco de sintomas extrapiramidais) e é incompatível com furosemida, ampicilina, cefalotina, bicarbonato e gluconato de cálcio.`,
+   `Infundir 10 mg lentamente em 3 minutos quando em bolus.`],
+
+  [24,`Diluição de Injetáveis`,`Desgaste do Bisel na Aspiração`,
+   `Durante treinamento em sala de vacinação, técnico aspira solução de ampola de vidro usando agulha 25×7 e pretende utilizar essa mesma agulha para aplicar no paciente.`,
+   [`Correto, trocar agulha aumenta desperdício sem benefício clínico.`,`Incorreto: deve-se encaixar nova agulha estéril por técnica asséptica após a aspiração, pois o contato do bisel com o vidro desgasta a ponta e causa dor.`,`Correto desde que passe algodão com álcool na ponta da agulha.`,`Deve-se retirar a tampa mantendo os dedos no canhão da agulha.`],1,
+   `O Manual de Administração de Vacinas e Injetáveis determina troca da agulha após aspiração de ampolas de vidro e proibição de tocar bico, canhão ou êmbolo.`,
+   `Descartar a agulha usada na aspiração em coletor de perfurocortantes.`],
+
+  [25,`Diluição de Injetáveis`,`Quebra Segura de Ampola`,
+   `Ao preparar medicação injetável, profissional envolve o gargalo da ampola com gaze e realiza pressão em direção ao próprio rosto sem proteger os dedos.`,
+   [`Procedimento seguro e padrão.`,`Risco de acidente: pressionar sempre no sentido a favor do corpo do profissional (afastando estilhaços do rosto) usando compressa seca ou face estéril da embalagem.`,`Deve-se quebrar a ampola batendo com tesoura metálica sobre a bancada.`,`Após aberta, guardar metade da ampola destampada para o turno seguinte.`],1,
+   `A técnica correta impede estilhaços em direção aos olhos/rosto e traumatismo digital.`,
+   `Aspirar imediatamente após abrir a ampola para minimizar exposição ao ar.`],
+
+  [26,`Diluição de Injetáveis`,`Local de Aplicação Subcutânea`,
+   `Paciente caquético necessita de injeção subcutânea de heparina/interferon; profissional escolhe região sobre proeminência óssea escapular com mínima camada adiposa.`,
+   [`Local ideal por ser mais firme.`,`Inadequado: selecionar região de fácil acesso, menor inervação, distante de proeminências ósseas e nervos, permitindo prega subcutânea (ex.: abdômen, coxa).`,`Aplicar por via intramuscular profunda em ângulo de 90° sem prega.`,`Massagear vigorosamente após qualquer aplicação subcutânea.`],1,
+   `A seleção do sítio subcutâneo exige camada tecidual suficiente para acomodar o volume injetado sem atingir músculo ou osso.`,
+   `Realizar rodízio sistemático dos locais de aplicação.`],
+
+  [27,`Diluição de Injetáveis`,`Furosemida em Dose Alta`,
+   `Prescrição de furosemida 80 mg IV para paciente com congestão pulmonar grave.`,
+   [`Aplicar 80 mg puro em bolus rápido de 15 segundos.`,`Diluir dose acima de 40 mg em 250 mL de SF 0,9% e infundir lentamente em cerca de 60 minutos.`,`Misturar com diazepam na mesma seringa para reduzir ansiedade respiratória.`,`Aplicar obrigatoriamente por via subcutânea.`],1,
+   `Infusão rápida de altas doses de furosemida causa ototoxicidade; diluição em 250 mL SF 0,9% em 60 min garante segurança.`,
+   `Incompatível com diazepam, fenitoína e dantrolene.`],
+
+  [28,`Diluição de Injetáveis`,`Acidente Perfurocortante em Sala de Vacina`,
+   `Profissional sofre perfuração acidental com agulha recém-utilizada em paciente durante campanha de vacinação.`,
+   [`Lavar e aguardar consulta ambulatorial de rotina em 15 dias.`,`Tratar o primeiro atendimento pós-exposição de risco ao HIV e hepatites como urgência imediata para iniciar profilaxia oportuna.`,`Espremer o dedo vigorosamente e aplicar hipoclorito concentrado.`,`Não notificar para evitar registro de incidente.`],1,
+   `A efetividade das profilaxias pós-exposição ao HIV e HBV depende criticamente do início imediato após o acidente.`,
+   `Nunca reencapar agulhas manualmente após o uso.`],
+
+  [29,`Diluição de Injetáveis`,`Cefalotina IM vs EV`,
+   `Prescrição de cefalotina 1 g intramuscular de 6/6h para paciente com acesso venoso pérvio em enfermaria.`,
+   [`Manter IM, pois cefalotina é totalmente indolor no músculo.`,`Sugerir ao prescritor administração por via EV, visto que a cefalotina por via IM é muito dolorosa.`,`Diluir cefalotina junto com metoclopramida no mesmo frasco.`,`Ajustar cefalotina para 1x/semana se ClCr 60 mL/min.`],1,
+   `Guias hospitalares destacam dor intensa associada à cefalotina IM e incompatibilidade direta com metoclopramida.`,
+   `Observar reações de hipersensibilidade e trombocitopenia.`],
+
+  [30,`Diluição de Injetáveis`,`Vacina Hepatite A por Faixa Etária`,
+   `Criança de 16 meses comparece para primeira dose da vacina adsorvida hepatite A (Havrix).`,
+   [`Aplicar 1,0 mL por via subcutânea na região glútea.`,`Aplicar 0,5 mL por via IM profunda preferencialmente na coxa (em menores de 2 anos), repetindo segunda dose em 1 mês ou conforme calendário.`,`Aplicar 1,0 mL no deltoide por ser a dose pediátrica padrão.`,`Administrar por via oral em gotas.`],1,
+   `Para 1 a 18 anos a dose é 0,5 mL (720 U) IM profunda, preferindo a coxa em < 2 anos e deltoide acima dessa idade.`,
+   `Conferir lote, validade, temperatura de conservação e registro em caderneta.`],
+
+  [31,`Segurança do Paciente`,`Prescrição LASA e Caixa Alta/Baixa`,
+   `Na farmácia hospitalar, foram armazenados lado a lado frascos semelhantes de dois fármacos de nomes parecidos sem diferenciação visual, resultando em quase falha na separação.`,
+   [`Manter tudo igual, pois o erro é culpa exclusiva da desatenção do auxiliar.`,`Aplicar técnica de Caixa Alta e Caixa Baixa (Tall Man Lettering) na unitarização, separação física por lote/Kanban e dupla checagem.`,`Remover todos os rótulos comerciais para economizar espaço.`,`Misturar lotes diferentes na mesma gaveta para facilitar reposição.`],1,
+   `A Farmácia Lean proíbe misturar lotes, exige tudo identificado e utiliza diferenciação ortográfica e gestão visual para eliminar patógenos latentes.`,
+   `Registrar a quase falha para aprendizado preventivo.`],
+
+  [32,`Segurança do Paciente`,`Disclosure após Erro com Dano`,
+   `Ocorreu erro de dose de anticoagulante em enfermaria causando hematoma extenso em paciente. A chefia sugere omitir o ocorrido da família para evitar processos.`,
+   [`Seguir a sugestão e não registrar no prontuário.`,`Aplicar o Protocolo de Londres 2024: atendimento clínico imediato para mitigar o dano e Disclosure (comunicação aberta e empática) ao paciente e família.`,`Demitir imediatamente o técnico sem investigar os fatores contribuintes.`,`Designar o supervisor direto da enfermaria como único investigador.`],1,
+   `O Protocolo de Londres prioriza cuidado contínuo, transparência (Disclosure), cultura justa e equipe investigadora independente (mín. 2 pessoas, não chefes diretos).`,
+   `Analisar fatores contribuintes: tarefa, equipe, sistemas eletrônicos e ambiente.`],
+
+  [33,`Segurança do Paciente`,`Gestão ABC-XYZ de Antimicrobianos`,
+   `Hospital sofreu ruptura de estoque de um antimicrobiano de baixo custo unitário, porém vital para choque séptico (classe C no valor financeiro, mas Z na criticidade clínica).`,
+   [`Ignorar a ruptura porque representa menos de 2% do orçamento.`,`Implementar matriz combinada ABC × XYZ, garantindo estoque de segurança e monitoramento Kanban para itens de alta criticidade clínica independentemente do baixo custo.`,`Comprar apenas itens classe A da curva ABC.`,`Eliminar o estoque mínimo para tornar a farmácia mais barata.`],1,
+   `Controlar estoques apenas pelo critério econômico (ABC) coloca vidas em risco; a combinação ABC-XYZ pondera custo e impacto clínico.`,
+   `Monitorar lead time de fornecedores e movimentação entre CAF e farmácia central.`],
+
+  [34,`Segurança do Paciente`,`Os 9 Certos na Prática Clínica`,
+   `Paciente recebeu medicamento correto na dose certa, porém por via intramuscular quando a forma farmacêutica era exclusiva para infusão endovenosa diluída.`,
+   [`Não houve falha grave porque a dose em miligramas estava exata.`,`Houve violação de dois dos 9 Certos (Via certa e Forma farmacêutica certa), exigindo notificação e protocolo imediato de farmacovigilância.`,`Se o paciente não reclamou na hora, dispensa monitoramento posterior.`,`O erro ocorreu na etapa de dispensação, que responde por 58% dos EA.`],1,
+   `Os 9 Certos incluem medicação, paciente, dose, via, horário, registro, ação, forma farmacêutica e monitoramento certos.`,
+   `Administração responde por ~40% dos EA de medicação; prescrição por ~58%.`],
+
+  [35,`Segurança do Paciente`,`Conciliação Medicamentosa na Alta`,
+   `Paciente idoso internado por insuficiência cardíaca recebe alta com prescrição de novos fármacos sem revisão dos medicamentos que já utilizava em domicílio, gerando duplicidade de betabloqueador.`,
+   [`A conciliação na alta é competência exclusiva administrativa fora da farmácia clínica.`,`Realizar conciliação medicamentosa na alta, comparando lista domiciliar prévia com prescrição de alta e pactuando com médico e paciente.`,`Orientar o paciente a tomar ambos os betabloqueadores para garantir efeito.`,`Entregar a receita sem orientação verbal para agilizar a saída do leito.`],1,
+   `A Res. CFF 585/2013 prevê elaboração de lista atualizada e conciliada na admissão, transferência e alta entre níveis de atenção.`,
+   `Fornecer tabela horária clara ao paciente e cuidador.`],
+
+  [36,`Segurança do Paciente`,`Busca Ativa por Medicamentos Gatilhos`,
+   `Farmacêutico clínico observa prescrição repetida de flumazenil e naloxona na unidade de internação clínica.`,
+   [`Apenas dispensar os antídotos sem questionar o contexto clínico.`,`Utilizar esses fármacos como medicamentos gatilhos (triggers) em busca ativa de superdosagem por benzodiazepínicos/opioides e eventos adversos.`,`Bloquear o estoque de antídotos na farmácia.`,`Classificar como reação tipo B inevitável.`],1,
+   `Antídotos funcionam como rastreadores valiosos de eventos adversos relacionados a medicamentos que frequentemente escapam da notificação passiva.`,
+   `Investigar causa-raiz (ex.: prescrição padrão automática sem ajuste renal).`],
+
+  [37,`Segurança do Paciente`,`Acuracidade de Estoque e Notas Fiscais`,
+   `Auditoria aponta divergência constante entre saldo físico e sistema na CAF porque materiais recebidos eram consumidos antes da entrada da nota fiscal.`,
+   [`Permitir o consumo sem NF para não atrasar o almoxarifado.`,`Bloquear circulação sem entrada fiscal formal, organizar guarda para inventário e realizar análise de causa-raiz para todo ajuste de estoque.`,`Ajustar o saldo manualmente toda sexta-feira sem investigar motivo.`,`Transferir itens vencidos para farmácias satélites.`],1,
+   `Evitar itens no recebimento sem entrada de NF e gerenciar o trânsito recebimento–CAF–farmácia central são pilares da acuracidade.`,
+   `Atualizar planilhas de perdas e devoluções regularmente.`],
+
+  [38,`Segurança do Paciente`,`Nivolumabe e Eventos Imunomediados`,
+   `Paciente em uso de nivolumabe (frasco 100 mg/10 mL) desenvolve dispneia progressiva, tosse seca e infiltrado pulmonar sugestivo de pneumonite imunomediada.`,
+   [`Acelerar a próxima infusão do imunoterápico.`,`Comunicar imediatamente a equipe médica para interrupção/suspensão do tratamento, pois reações imunomediadas (pneumonite, hepatite, nefrite) exigem interrupção e manejo específico.`,`Tratar apenas com vasoconstritor nasal tópico por 15 dias.`,`Atribuir a sintoma banal sem registro de farmacovigilância.`],1,
+   `Na ocorrência de qualquer reação adversa imunomediada com nivolumabe, recomenda-se interrupção do tratamento e, em casos graves, descontinuação definitiva.`,
+   `Notificar o evento em sistema de farmacovigilância.`],
+
+  [39,`Psicofármacos`,`Uso Crônico de Zolpidem e Interações`,
+   `Paciente com sobrepeso faz uso contínuo de zolpidem há 6 meses (acima das 4 semanas recomendadas) e iniciou recentemente paracetamol + hidrocodona para dor lombar.`,
+   [`Associação totalmente benigna para uso por tempo indeterminado.`,`Alertar sobre toxicidade hepática potencial pelo uso prolongado de zolpidem e interação grave com associação paracetamol + hidrocodona (depressão SNC/respiratória).`,`Substituir o zolpidem por flurazepam sem avisar o médico.`,`Dobrar a dose do zolpidem para aliviar a dor lombar.`],1,
+   `Uso > 4 semanas ou abusivo de zolpidem eleva enzimas hepáticas (especialmente em sobrepeso/alterações metabólicas) e interage gravemente com opioides como hidrocodona.`,
+   `Propor plano de desmame gradual e medidas de higiene do sono ao prescritor.`],
+
+  [40,`Psicofármacos`,`Risco de Síndrome Serotoninérgica e Washout`,
+   `Paciente em uso de tranilcipromina (IMAO) suspendeu o fármaco ontem e traz receita para iniciar hoje antagonista de receptor serotoninérgico/ISRS.`,
+   [`Dispensar para início imediato hoje mesmo.`,`Reter/intervir junto ao prescritor: o uso concomitante é contraindicado e exige intervalo mínimo de 14 dias após o término do IMAO pelo risco de síndrome serotoninérgica.`,`Reduzir apenas a dose em 10% e iniciar hoje.`,`Associar fluvoxamina junto para acelerar a troca.`],1,
+   `É mandatório o intervalo de washout de 14 dias após interrupção de IMAO antes de iniciar agentes serotoninérgicos.`,
+   `Orientar paciente sobre sinais de alerta: agitação, sudorese, mioclonia, hipertermia.`],
+
+  [41,`Psicofármacos`,`Prolongamento do Intervalo QT`,
+   `Paciente cardiopata em uso de amiodarona (antiarrítmico classe III) recebe prescrição hospitalar de haloperidol IV + ziprasidona oral para agitação.`,
+   [`Combinação ideal para cardiopatas com arritmia prévia.`,`Intervenção de alerta crítico: a associação de classe III/IA com haloperidol e ziprasidona tem efeito aditivo no prolongamento do intervalo QT e risco de arritmia fatal.`,`Associar quetiapina à prescrição para proteger o QT.`,`Aumentar a dose da amiodarona.`],1,
+   `Fármacos que prolongam o intervalo QT devem ser evitados em combinação; se imprescindível, exige monitorização rigorosa por ECG e eletrólitos.`,
+   `Orientar buscar atendimento se surgir tontura, síncope ou palpitações.`],
+
+  [42,`Psicofármacos`,`Interação Clorpromazina + Adrenalina`,
+   `Paciente em uso crônico de clorpromazina desenvolve hipotensão grave e alguém cogita administrar adrenalina em infusão contínua.`,
+   [`Adrenalina é o agente ideal e sempre eleva a PA nesse cenário.`,`Alertar que clorpromazina (ou haloperidol/flufenazina) associada à adrenalina provoca hipotensão paradoxal grave e taquicardia.`,`Associar tranilcipromina junto com levodopa.`,`Aumentar a dose da clorpromazina para conter a hipotensão.`],1,
+   `O bloqueio alfa-adrenérgico das fenotiazinas inverte a resposta pressórica da adrenalina (efeito beta-2 vasodilatador predominante).`,
+   `Sinalizar o risco em prontuário e equipe de emergência.`],
+
+  [43,`Psicofármacos`,`Inibição CYP2D6 com Trazodona`,
+   `Paciente faz uso de fluoxetina 40 mg/dia e recebe acréscimo de trazodona 150 mg à noite sem ajuste posológico.`,
+   [`Fluoxetina induz o metabolismo da trazodona, exigindo triplicar a dose desta.`,`Fluoxetina (e paroxetina) inibem a CYP2D6, elevando níveis de trazodona com risco de sintomas autonômicos de ansiedade e síndrome serotoninérgica; usar só se benefício > risco e com menor dose inicial.`,`Não existe interação farmacocinética entre antidepressivos.`,`Trocar fluoxetina por fluvoxamina e associar mirtazapina em dose máxima.`],1,
+   `Inibidores potentes da CYP2D6 reduzem o clearance de trazodona; fluvoxamina também inibe CYP3A4/1A2/2D6 elevando mirtazapina.`,
+   `Monitorar rigorosamente sonolência excessiva, tremores e sinais autonômicos.`],
+
+  [44,`Psicofármacos`,`Convulsões com Antipsicóticos e Bupropiona`,
+   `Paciente em uso de ziprasidona e bupropiona recebe prescrição adicional de tramadol para dor pós-operatória.`,
+   [`Combinação isenta de efeitos no sistema nervoso central.`,`Alertar risco aditivo de convulsões: ziprasidona, bupropiona e tramadol reduzem o limiar convulsivo; se inevitável, reduzir doses e monitorar rigorosamente.`,`Trocar tramadol por teofilina para analgesia.`,`Associar amitriptilina em dose alta.`],1,
+   `Ziprasidona somada a agentes epileptogênicos (bupropiona, tramadol, teofilina, ADT, carbapenens, fluoroquinolonas) eleva o risco convulsivo.`,
+   `Sugerir analgésico sem impacto sobre o limiar convulsivo ao médico.`],
+
+  [45,`Psicofármacos`,`Bloqueio Dopaminérgico D2 na Esquizofrenia`,
+   `Paciente esquizofrênico com sintomas positivos e negativos persistentes sem resposta satisfatória a neuroléptico típico em dose subterapêutica.`,
+   [`Reduzir o bloqueio D2 para 10% para obter eficácia máxima.`,`Avaliar adesão e transição com o psiquiatra para antipsicótico atípico, sabendo que eficácia requer ~80% de bloqueio D2 sem exceder para evitar extrapiramidalismo.`,`Prescrever zolpidem como antipsicótico principal.`,`Associar levodopa para estimular receptores D2.`],1,
+   `Antipsicóticos atípicos atuam melhor nos sintomas negativos e mantêm janela mais favorável em relação aos efeitos extrapiramidais.`,
+   `Evitar associação de antipsicóticos com levodopa por antagonismo direto.`],
+
+  [46,`Cuidado Farmacêutico`,`Vasoconstritor Nasal em Pediatria/Adulto`,
+   `Usuário solicita frasco de vasoconstritor nasal tópico relatando uso contínuo há 3 semanas por congestão persistente pós-gripe.`,
+   [`Vender mais dois frascos para manter uso contínuo por 60 dias.`,`Orientar que vasoconstritores tópicos restringem-se ao máximo de 5 dias (descartando o frasco depois), investigar rinite medicamentosa e orientar medidas não farmacológicas.`,`Indicar aplicação ocular do mesmo produto.`,`Associar anti-inflamatório oral sem anamnese.`],1,
+   `Uso prolongado além de 5 dias induz congestão rebote (rinite medicamentosa) e risco de contaminação do frasco.`,
+   `Investigar sintomas diferenciais de rinite alérgica ou sinusite bacteriana.`],
+
+  [47,`Cuidado Farmacêutico`,`Diferencial Gripe, Resfriado e Alergia`,
+   `Paciente adulto procura farmácia com febre de 39,4 °C, prostração acentuada e mialgia intensa de início súbito há 24 horas.`,
+   [`Tranquilizar dizendo ser rinite alérgica simples, pois esta sempre dá febre > 39 °C.`,`Identificar quadro compatível com síndrome gripal (Influenza) em vez de resfriado leve ou rinite, avaliando fatores de risco para encaminhamento médico.`,`Dispensar amoxicilina sem receita porque febre alta sempre é bacteriana.`,`Prescrever ácido acetilsalicílico infantil.`],1,
+   `Gripe apresenta repercussão sistêmica maior (febre > 39 °C, mialgia, prostração), enquanto rinite alérgica é recorrente e afebril.`,
+   `Monitorar sinais de alarme respiratório (taquipneia, dispneia, persistência > 72 h).`],
+
+  [48,`Cuidado Farmacêutico`,`Método Dáder e Fitoterápico Oculto`,
+   `Paciente hipertensa controlada descompensa abruptamente. Na entrevista pelo Método Dáder, relata tomar diariamente um "chá emagrecedor natural" adquirido sem orientação.`,
+   [`Ignorar o chá por ser natural e nunca interferir em medicamentos.`,`Registrar a planta medicinal no estado situacional (Análise Global), avaliar possível interação/efeito pressórico e orientar suspensão no plano de ação.`,`Dobrar todos os anti-hipertensivos sem investigar o chá.`,`Substituir os anti-hipertensivos por outro chá.`],1,
+   `Cerca de 80% da população confia na segurança inata das plantas medicinais; a anamnese farmacêutica deve sempre incluí-las.`,
+   `Promover educação em saúde sobre riscos de produtos vegetais não regulamentados.`],
+
+  [49,`Cuidado Farmacêutico`,`Sinais de Alarme em Lesão Dermatológica`,
+   `Mãe traz criança de 18 meses com lesões cutâneas exsudativas com presença de feridas abertas e solicita creme antifúngico de venda livre.`,
+   [`Instaurar tratamento com terbinafina creme sem restrições.`,`Identificar dois critérios de encaminhamento (< 2 anos de idade e presença de feridas) e encaminhar para avaliação médica.`,`Aplicar xampu de sulfeto de selênio sobre as feridas abertas sem enxaguar.`,`Prescrever corticoide tópico potente por 30 dias.`],1,
+   `Os fluxogramas de cuidado farmacêutico em distúrbios menores determinam encaminhamento médico para crianças < 2 anos, gestantes/lactantes e lesões com feridas.`,
+   `Sulfeto de selênio e terbinafina têm contraindicações em pele inflamada/lesada ou faixas etárias específicas.`],
+
+  [50,`Cuidado Farmacêutico`,`Tabagismo e Terapia Combinada`,
+   `Fumante com pontuação 8 na escala de Fagerström (dependência muito elevada) já falhou em tentativa prévia com bupropiona isolada.`,
+   [`Informar que nenhum tratamento farmacológico ultrapassa 5% de eficácia e desistir.`,`Explicar que bupropiona ou TRN isoladas têm eficácia de 20–30%, sendo a combinação TRN + bupropiona superior à monoterapia (RR 1,24), além de suporte comportamental.`,`Prescrever vareniclina associada a IMAO e haloperidol.`,`Substituir cigarros por zolpidem diurno.`],1,
+   `A combinação TRN + bupropiona aumenta a taxa de cessação frente à monoterapia; vareniclina atinge até ~40% e todas devem ser associadas a aconselhamento.`,
+   `Avaliar contraindicações (ex.: histórico de convulsões com bupropiona).`]
+];
+
+const CASES = CASES_RAW.map(c => ({
+  id: c[0],
+  category: c[1],
+  title: c[2],
+  vignette: c[3],
+  options: c[4],
+  correct: c[5],
+  rationale: c[6],
+  safety: c[7]
+}));
+
+// =========================================================
+// 4. ESTADO PERSISTENTE E CONTROLES DA APLICAÇÃO
+// =========================================================
+let appState = {
+  activeView: `study`,
+  activeStudyId: `m1`,
+  completedModules: [],
+  simAnswers: {},       // { "1": true/false (user boolean answer) }
+  caseAnswers: {},      // { "1": selectedIdx }
+  currentSimIndex: 0,
+  currentCaseId: 1,
+  randomSetIds: null
+};
+
+let filteredQuestions = [...QUESTIONS];
+let filteredCases = [...CASES];
+
+function saveState() {
+  if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+    window.notebookAppApi.setAppState(appState).catch(() => {});
+  }
+}
+
+function switchView(viewName) {
+  appState.activeView = viewName;
+  document.querySelectorAll(`.nav-tab`).forEach(btn => {
+    btn.classList.toggle(`active`, btn.dataset.tab === viewName);
+  });
+  document.querySelectorAll(`.view-panel`).forEach(panel => {
+    panel.classList.toggle(`active`, panel.id === `view-` + viewName);
+  });
+  if (viewName === `tools`) {
+    renderMasteryChart();
+    calcCockcroft();
+    calcBicarb();
+  }
+  saveState();
+}
+
+function updateKPIs() {
+  const modDone = appState.completedModules.length;
+  const kpiMod = document.getElementById(`kpi-modules`);
+  const kpiModCap = document.getElementById(`kpi-modules-cap`);
+  if (kpiMod) kpiMod.textContent = `${modDone} / 6`;
+  if (kpiModCap) {
+    kpiModCap.textContent = modDone === 6 ? `Todos os eixos concluídos` : `${6 - modDone} eixos restantes para revisão`;
+    kpiModCap.dataset.status = modDone === 6 ? `ok` : `info`;
+  }
+
+  let simAnswered = 0;
+  let simCorrect = 0;
+  QUESTIONS.forEach(q => {
+    if (Object.prototype.hasOwnProperty.call(appState.simAnswers, String(q.id))) {
+      simAnswered++;
+      if (appState.simAnswers[String(q.id)] === q.ans) simCorrect++;
+    }
+  });
+  const simPct = simAnswered > 0 ? Math.round((simCorrect / simAnswered) * 100) : 0;
+  const kpiSim = document.getElementById(`kpi-sim`);
+  const kpiSimCap = document.getElementById(`kpi-sim-cap`);
+  const kpiSimCard = document.getElementById(`kpi-sim-card`);
+  if (kpiSim) kpiSim.textContent = `${simAnswered} / 200`;
+  if (kpiSimCap) kpiSimCap.textContent = `${simCorrect} acertos (${simPct}% nas respondidas)`;
+  if (kpiSimCard) kpiSimCard.dataset.status = simPct >= 70 && simAnswered > 0 ? `ok` : (simAnswered > 0 && simPct < 50 ? `alert` : `info`);
+
+  let caseAnswered = 0;
+  let caseCorrect = 0;
+  CASES.forEach(c => {
+    if (Object.prototype.hasOwnProperty.call(appState.caseAnswers, String(c.id))) {
+      caseAnswered++;
+      if (appState.caseAnswers[String(c.id)] === c.correct) caseCorrect++;
+    }
+  });
+  const casePct = caseAnswered > 0 ? Math.round((caseCorrect / caseAnswered) * 100) : 0;
+  const kpiCases = document.getElementById(`kpi-cases`);
+  const kpiCasesCap = document.getElementById(`kpi-cases-cap`);
+  const kpiCasesCard = document.getElementById(`kpi-cases-card`);
+  if (kpiCases) kpiCases.textContent = `${caseAnswered} / 50`;
+  if (kpiCasesCap) kpiCasesCap.textContent = `${caseCorrect} condutas corretas (${casePct}% acurácia)`;
+  if (kpiCasesCard) kpiCasesCard.dataset.status = casePct >= 70 && caseAnswered > 0 ? `ok` : `info`;
+
+  const totalAnswered = simAnswered + caseAnswered;
+  const totalCorrect = simCorrect + caseCorrect;
+  const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+  const kpiMastery = document.getElementById(`kpi-mastery`);
+  if (kpiMastery) kpiMastery.textContent = `${overallPct}%`;
+}
+
+// =========================================================
+// 5. RENDERIZAÇÃO DO ESTUDO ESTRUTURADO
+// =========================================================
+function renderStudy() {
+  const listEl = document.getElementById(`study-topic-list`);
+  const contentEl = document.getElementById(`study-content`);
+  if (!listEl || !contentEl) return;
+
+  listEl.innerHTML = STUDY_MODULES.map(m => {
+    const isActive = m.id === appState.activeStudyId;
+    const isDone = appState.completedModules.includes(m.id);
+    return `
+      <button type="button" class="topic-btn ${isActive ? `active` : ``} ${isDone ? `done` : ``}" onclick="selectStudyModule('${m.id}')">
+        <span class="topic-btn-title">${m.title}</span>
+        <span class="topic-btn-meta">
+          <span>${m.cards.length} blocos-chave</span>
+          <span class="chip" data-status="${isDone ? `ok` : `info`}">${isDone ? `Concluído` : `Em estudo`}</span>
+        </span>
+      </button>
+    `;
+  }).join(``);
+
+  const mod = STUDY_MODULES.find(m => m.id === appState.activeStudyId) || STUDY_MODULES[0];
+  const isDone = appState.completedModules.includes(mod.id);
+
+  contentEl.innerHTML = `
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+      <div>
+        <h3 class="section-heading">${mod.title}</h3>
+        <p style="margin:0; color:var(--on-surface-variant);">${mod.subtitle}</p>
+      </div>
+      <button type="button" class="btn ${isDone ? `btn-ok` : `btn-primary`}" onclick="toggleModuleDone('${mod.id}')">
+        ${isDone ? `✓ Módulo Concluído (Desmarcar)` : `Marcar Módulo como Concluído`}
+      </button>
+    </div>
+    <div class="callout"><strong>Ponto-Chave das Fontes:</strong> ${mod.callout}</div>
+    <div class="study-blocks">
+      ${mod.cards.map(c => `
+        <div class="concept-card">
+          <h4>${c.title}</h4>
+          <ul>${c.items.map(i => `<li>${i}</li>`).join(``)}</ul>
+        </div>
+      `).join(``)}
+    </div>
+    <div>
+      <h4 style="font-family:var(--font-headline); margin:0 0 var(--space-sm) 0;">${mod.tableTitle}</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>${mod.tableHeaders.map(h => `<th>${h}</th>`).join(``)}</tr></thead>
+          <tbody>
+            ${mod.tableRows.map(r => `<tr>${r.map(cell => `<td>${cell}</td>`).join(``)}</tr>`).join(``)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function selectStudyModule(id) {
+  appState.activeStudyId = id;
+  renderStudy();
+  saveState();
+}
+
+function toggleModuleDone(id) {
+  const idx = appState.completedModules.indexOf(id);
+  if (idx >= 0) appState.completedModules.splice(idx, 1);
+  else appState.completedModules.push(id);
+  renderStudy();
+  updateKPIs();
+  saveState();
+}
+
+// =========================================================
+// 6. SIMULADOR 200 QUESTÕES C/E
+// =========================================================
+function applySimFilters() {
+  appState.randomSetIds = null;
+  const dom = (document.getElementById(`sim-domain-filter`) || {}).value || `all`;
+  const st = (document.getElementById(`sim-status-filter`) || {}).value || `all`;
+  const query = ((document.getElementById(`sim-search`) || {}).value || ``).trim().toLowerCase();
+
+  filteredQuestions = QUESTIONS.filter(q => {
+    if (dom !== `all` && q.domain !== dom) return false;
+    const key = String(q.id);
+    const hasAns = Object.prototype.hasOwnProperty.call(appState.simAnswers, key);
+    if (st === `unanswered` && hasAns) return false;
+    if (st === `correct` && (!hasAns || appState.simAnswers[key] !== q.ans)) return false;
+    if (st === `wrong` && (!hasAns || appState.simAnswers[key] === q.ans)) return false;
+    if (query && !(`${q.text} ${q.exp} ${q.domain}`.toLowerCase().includes(query))) return false;
+    return true;
+  });
+
+  appState.currentSimIndex = 0;
+  renderSim();
+}
+
+function startRandomQuiz20() {
+  const pool = [...QUESTIONS];
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const picked = pool.slice(0, 20).map(q => q.id);
+  appState.randomSetIds = picked;
+  filteredQuestions = QUESTIONS.filter(q => picked.includes(q.id));
+  appState.currentSimIndex = 0;
+  renderSim();
+}
+
+function renderSim() {
+  const stage = document.getElementById(`sim-question-stage`);
+  const navGrid = document.getElementById(`sim-nav-grid`);
+  const countEl = document.getElementById(`sim-filtered-count`);
+  if (!stage || !navGrid) return;
+
+  if (countEl) countEl.textContent = String(filteredQuestions.length);
+
+  if (filteredQuestions.length === 0) {
+    stage.innerHTML = `
+      <div class="question-card">
+        <p class="q-statement">Nenhuma questão encontrada para os filtros selecionados.</p>
+        <div><button type="button" class="btn btn-primary" onclick="resetSimFilters()">Mostrar todas as 200 questões</button></div>
+      </div>
+    `;
+    navGrid.innerHTML = ``;
+    return;
+  }
+
+  if (appState.currentSimIndex >= filteredQuestions.length) appState.currentSimIndex = 0;
+  if (appState.currentSimIndex < 0) appState.currentSimIndex = 0;
+
+  const q = filteredQuestions[appState.currentSimIndex];
+  const key = String(q.id);
+  const answered = Object.prototype.hasOwnProperty.call(appState.simAnswers, key);
+  const userAns = answered ? appState.simAnswers[key] : null;
+  const isCorrect = answered && userAns === q.ans;
+
+  stage.innerHTML = `
+    <div class="question-card" data-result="${answered ? (isCorrect ? `correct` : `wrong`) : ``}">
+      <div class="q-meta">
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-xs); align-items:center;">
+          <span class="chip" data-status="info">Questão ${q.id} de 200</span>
+          <span class="chip" data-status="warn">${q.domain}</span>
+          ${appState.randomSetIds ? `<span class="chip" data-status="ok">Bloco Aleatório (20)</span>` : ``}
+        </div>
+        <span style="font-size:var(--label-size); color:var(--on-surface-variant);">Exibindo ${appState.currentSimIndex + 1} / ${filteredQuestions.length}</span>
+      </div>
+
+      <p class="q-statement">${q.text}</p>
+
+      <div class="ce-actions">
+        <button type="button" class="btn btn-secondary ce-btn ${answered && userAns === true ? (q.ans === true ? `selected-ok` : `selected-err`) : ``}" onclick="answerSim(${q.id}, true)">
+          ✓ Certo
+        </button>
+        <button type="button" class="btn btn-secondary ce-btn ${answered && userAns === false ? (q.ans === false ? `selected-ok` : `selected-err`) : ``}" onclick="answerSim(${q.id}, false)">
+          ✕ Errado
+        </button>
+      </div>
+
+      ${answered ? `
+        <div class="explanation-box ${isCorrect ? `correct` : `wrong`}">
+          <strong>${isCorrect ? `Resposta Correta!` : `Resposta Incorreta`} — Gabarito oficial: ${q.ans ? `CERTO` : `ERRADO`}</strong>
+          <p style="margin:0;">${q.exp}</p>
+        </div>
+      ` : ``}
+
+      <div style="display:flex; justify-content:space-between; gap:var(--space-sm); flex-wrap:wrap;">
+        <button type="button" class="btn btn-ghost" onclick="moveSim(-1)" ${appState.currentSimIndex === 0 ? `disabled` : ``}>← Anterior</button>
+        <button type="button" class="btn btn-primary" onclick="moveSim(1)" ${appState.currentSimIndex >= filteredQuestions.length - 1 ? `disabled` : ``}>Próxima Questão →</button>
+      </div>
+    </div>
+  `;
+
+  navGrid.innerHTML = filteredQuestions.map((item, idx) => {
+    const k = String(item.id);
+    const has = Object.prototype.hasOwnProperty.call(appState.simAnswers, k);
+    const cls = has ? (appState.simAnswers[k] === item.ans ? `ok` : `err`) : ``;
+    const cur = idx === appState.currentSimIndex ? `current` : ``;
+    return `<button type="button" class="q-pill ${cls} ${cur}" onclick="jumpSim(${idx})">${item.id}</button>`;
+  }).join(``);
+}
+
+function resetSimFilters() {
+  const dom = document.getElementById(`sim-domain-filter`);
+  const st = document.getElementById(`sim-status-filter`);
+  const q = document.getElementById(`sim-search`);
+  if (dom) dom.value = `all`;
+  if (st) st.value = `all`;
+  if (q) q.value = ``;
+  applySimFilters();
+}
+
+function answerSim(qId, val) {
+  appState.simAnswers[String(qId)] = val;
+  renderSim();
+  updateKPIs();
+  saveState();
+}
+
+function moveSim(delta) {
+  appState.currentSimIndex = Math.max(0, Math.min(filteredQuestions.length - 1, appState.currentSimIndex + delta));
+  renderSim();
+  saveState();
+}
+
+function jumpSim(idx) {
+  appState.currentSimIndex = idx;
+  renderSim();
+  saveState();
+}
+
+// =========================================================
+// 7. 50 CASOS CLÍNICOS PRÁTICOS INTERATIVOS
+// =========================================================
+function applyCaseFilters() {
+  const cat = (document.getElementById(`case-cat-filter`) || {}).value || `all`;
+  const query = ((document.getElementById(`case-search`) || {}).value || ``).trim().toLowerCase();
+
+  filteredCases = CASES.filter(c => {
+    if (cat !== `all` && c.category !== cat) return false;
+    if (query && !(`${c.title} ${c.vignette} ${c.category} ${c.rationale}`.toLowerCase().includes(query))) return false;
+    return true;
+  });
+
+  if (filteredCases.length > 0 && !filteredCases.some(c => c.id === appState.currentCaseId)) {
+    appState.currentCaseId = filteredCases[0].id;
+  }
+  renderCases();
+}
+
+function renderCases() {
+  const listEl = document.getElementById(`case-list`);
+  const stageEl = document.getElementById(`case-stage`);
+  if (!listEl || !stageEl) return;
+
+  if (filteredCases.length === 0) {
+    listEl.innerHTML = `<p style="color:var(--on-surface-variant);">Nenhum caso encontrado.</p>`;
+    stageEl.innerHTML = `<div class="question-card"><p>Ajuste os filtros de especialidade ou busca para visualizar os casos clínicos.</p></div>`;
+    return;
+  }
+
+  listEl.innerHTML = filteredCases.map(c => {
+    const k = String(c.id);
+    const has = Object.prototype.hasOwnProperty.call(appState.caseAnswers, k);
+    const ok = has && appState.caseAnswers[k] === c.correct;
+    const statusCls = has ? (ok ? `solved-ok` : `solved-err`) : ``;
+    const activeCls = c.id === appState.currentCaseId ? `active` : ``;
+    return `
+      <button type="button" class="case-item ${statusCls} ${activeCls}" onclick="selectCase(${c.id})">
+        <div style="display:flex; justify-content:space-between; gap:6px; align-items:center;">
+          <strong style="font-family:var(--font-headline); font-size:0.9375rem;">Caso ${c.id}: ${c.title}</strong>
+          ${has ? `<span class="chip" data-status="${ok ? `ok` : `alert`}">${ok ? `✓` : `✕`}</span>` : ``}
+        </div>
+        <span style="font-size:var(--label-size); color:var(--on-surface-variant);">${c.category}</span>
+      </button>
+    `;
+  }).join(``);
+
+  const cur = filteredCases.find(c => c.id === appState.currentCaseId) || filteredCases[0];
+  const key = String(cur.id);
+  const answered = Object.prototype.hasOwnProperty.call(appState.caseAnswers, key);
+  const chosen = answered ? appState.caseAnswers[key] : null;
+  const isOk = answered && chosen === cur.correct;
+
+  const curPos = filteredCases.findIndex(c => c.id === cur.id);
+
+  stageEl.innerHTML = `
+    <div class="question-card" data-result="${answered ? (isOk ? `correct` : `wrong`) : ``}">
+      <div class="q-meta">
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-xs);">
+          <span class="chip" data-status="info">Caso Clínico #${cur.id} de 50</span>
+          <span class="chip" data-status="warn">${cur.category}</span>
+        </div>
+      </div>
+
+      <h3 class="section-heading" style="margin:0;">${cur.title}</h3>
+      <div class="callout" style="margin:0;"><strong>Cenário Clínico:</strong> ${cur.vignette}</div>
+
+      <div class="kpi-label">Qual a conduta farmacêutica mais adequada?</div>
+      <div class="case-options">
+        ${cur.options.map((opt, idx) => {
+          let cls = ``;
+          if (answered) {
+            if (idx === cur.correct) cls = `opt-correct`;
+            else if (idx === chosen) cls = `opt-wrong`;
+          }
+          const letter = [`A`, `B`, `C`, `D`][idx];
+          return `
+            <button type="button" class="btn case-opt-btn ${cls}" onclick="answerCase(${cur.id}, ${idx})">
+              <span><strong>${letter})</strong> ${opt}</span>
+            </button>
+          `;
+        }).join(``)}
+      </div>
+
+      ${answered ? `
+        <div class="explanation-box ${isOk ? `correct` : `wrong`}">
+          <strong>${isOk ? `Conduta Assertiva!` : `Conduta Inadequada — Alternativa correta: ${[`A`, `B`, `C`, `D`][cur.correct]}`}</strong>
+          <p style="margin:0;"><strong>Fundamentação Clínica:</strong> ${cur.rationale}</p>
+          <p style="margin:0;"><strong>Ponto de Segurança do Paciente:</strong> ${cur.safety}</p>
+        </div>
+      ` : ``}
+
+      <div style="display:flex; justify-content:space-between; gap:var(--space-sm); flex-wrap:wrap;">
+        <button type="button" class="btn btn-ghost" onclick="moveCase(-1)" ${curPos <= 0 ? `disabled` : ``}>← Caso Anterior</button>
+        <button type="button" class="btn btn-primary" onclick="moveCase(1)" ${curPos >= filteredCases.length - 1 ? `disabled` : ``}>Próximo Caso →</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectCase(id) {
+  appState.currentCaseId = id;
+  renderCases();
+  saveState();
+}
+
+function answerCase(caseId, optIdx) {
+  appState.caseAnswers[String(caseId)] = optIdx;
+  renderCases();
+  updateKPIs();
+  saveState();
+}
+
+function moveCase(delta) {
+  const idx = filteredCases.findIndex(c => c.id === appState.currentCaseId);
+  const nextIdx = Math.max(0, Math.min(filteredCases.length - 1, idx + delta));
+  if (filteredCases[nextIdx]) {
+    appState.currentCaseId = filteredCases[nextIdx].id;
+    renderCases();
+    saveState();
+  }
+}
+
+// =========================================================
+// 8. PAINEL DE DOMÍNIO E CALCULADORAS CLÍNICAS
+// =========================================================
+function renderMasteryChart() {
+  const container = document.getElementById(`mastery-chart`);
+  if (!container) return;
+
+  const domains = [
+    `Farmacologia`,
+    `Farmácia Clínica`,
+    `Farmácia Hospitalar`,
+    `Antibioticoterapia`,
+    `Injetáveis e Vacinas`,
+    `Farmacoterapia e Psicofármacos`
+  ];
+
+  container.innerHTML = domains.map(dom => {
+    const qs = QUESTIONS.filter(q => q.domain === dom);
+    let ans = 0, ok = 0;
+    qs.forEach(q => {
+      const k = String(q.id);
+      if (Object.prototype.hasOwnProperty.call(appState.simAnswers, k)) {
+        ans++;
+        if (appState.simAnswers[k] === q.ans) ok++;
+      }
+    });
+    const pct = ans > 0 ? Math.round((ok / ans) * 100) : 0;
+    return `
+      <div class="mastery-row">
+        <div>
+          <strong style="font-size:0.9375rem;">${dom}</strong>
+          <div style="font-size:var(--label-size); color:var(--on-surface-variant);">${ok}/${ans} acertos (${qs.length} Qs)</div>
+        </div>
+        <div class="bar-track" aria-label="${dom}: ${pct}%">
+          <div class="bar-target-band" title="Meta ≥ 70%"></div>
+          <div class="bar-fill ${pct >= 70 ? `high` : ``}" style="width:${pct}%"></div>
+        </div>
+        <div style="text-align:right; font-weight:800; font-variant-numeric:tabular-nums;">${pct}%</div>
+      </div>
+    `;
+  }).join(``);
+}
+
+function calcCockcroft() {
+  const age = parseFloat((document.getElementById(`cg-age`) || {}).value || `0`);
+  const weight = parseFloat((document.getElementById(`cg-weight`) || {}).value || `0`);
+  const cr = parseFloat((document.getElementById(`cg-cr`) || {}).value || `0`);
+  const sex = (document.getElementById(`cg-sex`) || {}).value || `M`;
+  const out = document.getElementById(`cg-output`);
+  if (!out) return;
+
+  if (!(age > 0 && weight > 0 && cr > 0)) {
+    out.innerHTML = `Informe idade, peso e creatinina válidos para estimar o ClCr.`;
+    return;
+  }
+  let clcr = ((140 - age) * weight) / (72 * cr);
+  if (sex === `F`) clcr *= 0.85;
+  const val = clcr.toFixed(1);
+
+  let guidance = `Função renal preservada para doses padrão habituais.`;
+  if (clcr < 10) guidance = `ClCr < 10 mL/min: Cefepima a cada 48h · Ciprofloxacino 50% · Vancomicina 10 mg/kg cada 3–4 dias + dosagem sérica · Metoclopramida reduzir 75%.`;
+  else if (clcr < 20) guidance = `ClCr < 20 mL/min: Piperacilina-tazobactam 2,25 g 8/8h · Cefepima a cada 24h · Metoclopramida reduzir 75% se ≤ 15 mL/min.`;
+  else if (clcr <= 50) guidance = `ClCr 20–50 mL/min: Cefepima a cada 24h · Piperacilina-tazobactam 2,25 g 6/6h · Ciprofloxacino 200 mg IV 12/12h · Levofloxacino a cada 48h · Metoclopramida reduzir 50%.`;
+
+  out.innerHTML = `<strong>ClCr estimado: ${val} mL/min</strong><br><span>${guidance}</span>`;
+}
+
+function calcBicarb() {
+  const found = parseFloat((document.getElementById(`bic-found`) || {}).value || `0`);
+  const target = parseFloat((document.getElementById(`bic-target`) || {}).value || `0`);
+  const weight = parseFloat((document.getElementById(`bic-weight`) || {}).value || `0`);
+  const out = document.getElementById(`bic-output`);
+  if (!out) return;
+
+  if (!(weight > 0 && target >= found)) {
+    out.innerHTML = `Informe peso válido e bicarbonato desejado maior ou igual ao encontrado.`;
+    return;
+  }
+  const meq = ((target - found) * 0.5 * weight).toFixed(1);
+  out.innerHTML = `<strong>Déficit calculado: ${meq} mEq de Bicarbonato de Sódio</strong><br><span>Fórmula do Manual: [Desejado − Encontrado] × 0,5 × peso (kg). Alvo inicial em acidose grave: HCO₃⁻ ~10 mEq/L e pH 7,15–7,20.</span>`;
+}
+
+// =========================================================
+// 9. RESET SEGURO (2 CLIQUES) & EXPORTAÇÃO CSV
+// =========================================================
+function handleResetProgress(btn) {
+  if (!btn) return;
+  if (btn.dataset.armed !== `true`) {
+    btn.dataset.armed = `true`;
+    btn.textContent = `Clique novamente para confirmar`;
+    setTimeout(() => {
+      if (btn.dataset.armed === `true`) {
+        btn.dataset.armed = `false`;
+        btn.innerHTML = `<i data-lucide="rotate-ccw" width="18" height="18" aria-hidden="true"></i> Zerar Progresso`;
+        if (window.lucide) window.lucide.createIcons();
+      }
+    }, 4500);
+    return;
+  }
+  btn.dataset.armed = `false`;
+  btn.innerHTML = `<i data-lucide="rotate-ccw" width="18" height="18" aria-hidden="true"></i> Zerar Progresso`;
+  if (window.lucide) window.lucide.createIcons();
+
+  appState.completedModules = [];
+  appState.simAnswers = {};
+  appState.caseAnswers = {};
+  appState.currentSimIndex = 0;
+  appState.currentCaseId = 1;
+  renderStudy();
+  renderSim();
+  renderCases();
+  renderMasteryChart();
+  updateKPIs();
+  saveState();
+}
+
+function exportProgressCSV() {
+  const lines = [`Tipo,ID,Area,Status,Resposta_Usuario,Gabarito`];
+  QUESTIONS.forEach(q => {
+    const k = String(q.id);
+    if (Object.prototype.hasOwnProperty.call(appState.simAnswers, k)) {
+      const u = appState.simAnswers[k] ? `Certo` : `Errado`;
+      const g = q.ans ? `Certo` : `Errado`;
+      const st = appState.simAnswers[k] === q.ans ? `Acerto` : `Erro`;
+      lines.push(`Questao,${q.id},"${q.domain}",${st},${u},${g}`);
+    }
+  });
+  CASES.forEach(c => {
+    const k = String(c.id);
+    if (Object.prototype.hasOwnProperty.call(appState.caseAnswers, k)) {
+      const idx = appState.caseAnswers[k];
+      const st = idx === c.correct ? `Acerto` : `Erro`;
+      lines.push(`Caso_Clinico,${c.id},"${c.category}",${st},Opcao_${idx + 1},Opcao_${c.correct + 1}`);
+    }
+  });
+  const csv = lines.join(`\n`);
+  if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+    window.notebookAppApi.triggerFileDownload({
+      content: csv,
+      contentType: `text/csv`,
+      encoding: `UTF-8`,
+      filename: `desempenho_farmacia_clinica.csv`
+    });
+  }
+}
+
+// =========================================================
+// 10. INICIALIZAÇÃO COM SHIM API
+// =========================================================
+async function initApp() {
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+      const saved = await window.notebookAppApi.getAppState();
+      if (saved && typeof saved === `object`) {
+        appState = {
+          activeView: saved.activeView || `study`,
+          activeStudyId: saved.activeStudyId || `m1`,
+          completedModules: Array.isArray(saved.completedModules) ? saved.completedModules : [],
+          simAnswers: saved.simAnswers && typeof saved.simAnswers === `object` ? saved.simAnswers : {},
+          caseAnswers: saved.caseAnswers && typeof saved.caseAnswers === `object` ? saved.caseAnswers : {},
+          currentSimIndex: typeof saved.currentSimIndex === `number` ? saved.currentSimIndex : 0,
+          currentCaseId: typeof saved.currentCaseId === `number` ? saved.currentCaseId : 1,
+          randomSetIds: Array.isArray(saved.randomSetIds) ? saved.randomSetIds : null
+        };
+      }
+    }
+  } catch (e) {}
+
+  if (appState.randomSetIds && appState.randomSetIds.length > 0) {
+    filteredQuestions = QUESTIONS.filter(q => appState.randomSetIds.includes(q.id));
+  }
+
+  renderStudy();
+  renderSim();
+  renderCases();
+  renderMasteryChart();
+  calcCockcroft();
+  calcBicarb();
+  updateKPIs();
+  switchView(appState.activeView);
+
+  if (window.lucide && typeof window.lucide.createIcons === `function`) {
+    window.lucide.createIcons();
+  }
+  if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+    window.notebookAppApi.notifyAppReady();
+  }
+}
+
+document.addEventListener(`DOMContentLoaded`, initApp);
+</script>
+</body>
+</html>
